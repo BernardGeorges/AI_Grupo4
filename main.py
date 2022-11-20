@@ -21,8 +21,7 @@ for line in file:
     y += 1
 
 g = graph(partida,fim,b)
-
+g.AEstrela()
 print(b)
 print(fim)
 print(partida)
-print(g.criaGrafo(partida,(0,0),(0,0)))
