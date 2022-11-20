@@ -90,3 +90,4 @@ class graph:
                possiveis.append((ponto,nextVel,self.calcAcel(best[2],acel),self.calcBestHeuristica(ponto)+len(path),path))
        return path
 
+#O Rafa teve aqui
