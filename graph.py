@@ -2,6 +2,13 @@ import math
 
 
 class graph:
+    
+    #o x se encontra na pos[0]
+    X = 0
+    # Y se encontra no pos[1]
+    Y = 1
+    
+    
     def __init__(self,partida,fim,matriz):
         self.start = partida
         self.end = fim
@@ -10,16 +17,17 @@ class graph:
 
      #funcao que cria e devolve o grafo dos estados possiveis
     def criaGrafo(self,pos, velocidade, aceleracao,path = [], grafo = {}):
-        if self.estadoNaoPossivel(pos) or pos == self.end  or (pos in path and velocidade != 0):
-            return None
-        path.append(pos)
-        grafo[(pos,velocidade,aceleracao)] = set()
-        newPos,newVel = self.calcNextPos(velocidade,aceleracao,pos),self.calcVel(velocidade,aceleracao)
-        for acel in self.ac:
-            newAcel = self.calcAcel(aceleracao,acel)
-            grafo[(pos, velocidade, aceleracao)].add((newPos,newVel,newAcel))
-            grafo = self.criaGrafo(newPos,newVel,newAcel,path,grafo)
-            return grafo
+        if not (self.estadoNaoPossivel(pos) or (pos in path and velocidade != (0,0)) or pos in self.end):
+            path.append(pos)
+            grafo[(pos,velocidade,aceleracao)] = set()
+            newPos,newVel = self.calcNextPos(velocidade,aceleracao,pos),self.calcVel(velocidade,aceleracao)
+            for acel in self.ac:
+                newAcel = self.calcAcel(aceleracao,acel)
+                grafo[(pos, velocidade, aceleracao)].add((newPos,newVel,newAcel))
+                grafo = self.criaGrafo(newPos,newVel,newAcel,path,grafo)
+        return grafo
+        
+    
 
     #calcula a melhor heuristica em relação aos possiveis fins. Escolhe o melhor final para se ter
     def calcBestHeuristica(self, ponto):
@@ -63,7 +71,7 @@ class graph:
 
    # verifica se pos não é uma posição valida para um futuro movimento (ou seja devolve true se for parede ou se a posição estiver fora do mapa)
     def estadoNaoPossivel(self,pos):
-        return (pos[0] < 0 or pos[1] < 0 or self.matrix[pos[1]][pos[0]] == '#')
+        return ( 0 < pos[self.X] < len(self.matrix[0])  or 0 < pos[self.Y] < len(self.matrix) or self.matrix[pos[self.Y]][pos[self.X]] == '#')
 
     #algoritmo de pesquisa A*
     def AEstrela(self):
@@ -72,7 +80,7 @@ class graph:
        # caminho que o bot deve seguir
        path = []
        #ainda nao implementei mas devia XD (visitados = [])
-       #best = (posição,velocidade,aceleração,heuristica,caminho)
+       #best = (0: posição, 1: velocidade, 2: aceleração, 3: heuristica, 4: caminho)
        best = (self.start,(0,0),(0,0),self.calcBestHeuristica(self.start),[])
        while True:
           if best[0] == self.end:
