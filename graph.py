@@ -9,19 +9,16 @@ class graph:
         self.ac = [(-1,-1),(-1,0),(-1,1),(0,-1),(0,0),(0,1),(1,-1),(1,0),(1,1)]
 
      #funcao que cria e devolve o grafo dos estados possiveis
-    def criaGrafo(self,pos, velocidade, aceleracao,path = []):
-        if self.estadoNaoPossivel(pos) or (pos in path and velocidade != 0):
+    def criaGrafo(self,pos, velocidade, aceleracao,path = [], grafo = {}):
+        if self.estadoNaoPossivel(pos) or pos == self.end  or (pos in path and velocidade != 0):
             return None
         path.append(pos)
-        grafo = {}
         grafo[(pos,velocidade,aceleracao)] = set()
+        newPos,newVel = self.calcNextPos(velocidade,aceleracao,pos),self.calcVel(velocidade,aceleracao)
         for acel in self.ac:
-            newPos,newVel,newAcel = self.calcNextPos(velocidade,aceleracao,pos),self.calcVel(velocidade,aceleracao),self.calcAcel(aceleracao,acel)
-            grafoFilhos = self.criaGrafo(newPos,newVel,newAcel,path)
-            if grafoFilhos == None:
-                grafo[(pos,velocidade,aceleracao)].add(0)
-            else:
-                grafo[(pos,velocidade,aceleracao)].add(grafoFilhos)
+            newAcel = self.calcAcel(aceleracao,acel)
+            grafo[(pos, velocidade, aceleracao)].add((newPos,newVel,newAcel))
+            grafo = self.criaGrafo(newPos,newVel,newAcel,path,grafo)
             return grafo
 
     #calcula a melhor heuristica em relação aos possiveis fins. Escolhe o melhor final para se ter
@@ -51,6 +48,7 @@ class graph:
         retVC = vc + ac
         return (retVL,retVC)
 
+    #calcula a nova Aceleração
     def calcAcel(self,acelAtual, acelAdd):
         (x1,y1) = acelAtual
         (x2,y2) = acelAdd
@@ -63,9 +61,11 @@ class graph:
                 possiveis.remove((nodo, velAtual, acelAtual, heuristica,path))
         return possiveis
 
-   # pls fazerem dada a posição(ponto) verifica se este é uma prosição valida para um futuro movimento (ou seja devolve false se for parede)
+   # verifica se pos não é uma posição valida para um futuro movimento (ou seja devolve true se for parede ou se a posição estiver fora do mapa)
     def estadoNaoPossivel(self,pos):
-        return (pos[0] < 0 or pos[1] < 0 or pos == self.end or self.matrix[pos[1]][pos[0]] == '#')
+        return (pos[0] < 0 or pos[1] < 0 or self.matrix[pos[1]][pos[0]] == '#')
+
+    #algoritmo de pesquisa A*
     def AEstrela(self):
        #possiveis = [(posição,velocidade,aceleração,heuristica,caminho)]
        possiveis = [(self.start,(0,0),(0,0),math.inf,[])]
@@ -90,4 +90,3 @@ class graph:
                possiveis.append((ponto,nextVel,self.calcAcel(best[2],acel),self.calcBestHeuristica(ponto)+len(path),path))
        return path
 
-#O Rafa teve aqui
