@@ -1,4 +1,14 @@
+# Biblioteca de tratamento de grafos necessária para desenhar graficamente o grafo
+import queue
+import networkx as nx
+# Biblioteca de tratamento de grafos necessária para desenhar graficamente o grafo
+import matplotlib.pyplot as plt
+
+#biblioteca necessária para se poder utilizar o valor math.inf  (infinito)
 import math
+
+from xmlrpc.client import Boolean
+
 
 
 class graph:
@@ -14,6 +24,7 @@ class graph:
         self.end = fim
         self.matrix = matriz
         self.ac = [(-1,-1),(-1,0),(-1,1),(0,-1),(0,0),(0,1),(1,-1),(1,0),(1,1)]
+        self.grafo = self.criaGrafo(partida,(0,0),(0,0))
 
      #funcao que cria e devolve o grafo dos estados possiveis
     def criaGrafo(self,pos, vel, acel):
@@ -27,8 +38,10 @@ class graph:
             for newAceleracao in self.ac:
                 nextPos,nextVel,nextAcel = self.calcNextPos(posicao,velocidade,aceleracao),self.calcVel(velocidade,aceleracao),self.calcAcel(aceleracao,newAceleracao)
                 if (nextPos not in grafo.keys() or first) and self.estadoPossivel(nextPos):
-                    grafo[posicao].add(nextPos)
+                    grafo[posicao].add((nextPos,1))
                     porVisitar.append((nextPos,nextVel,nextAcel))
+                else:
+                    grafo[posicao].add((nextPos,25))
             first = False
         return grafo
 
@@ -102,3 +115,30 @@ class graph:
                possiveis.append((ponto,nextVel,self.calcAcel(best[2],acel),self.calcBestHeuristica(ponto)+len(path),path))
        return path
 
+    def __str__(self):
+        out = " "
+        for k in self.grafo.keys():
+            out = out + "node " + str(k) + ": " + str(self.grafo[k]) + "\n"
+        return out
+    
+# desenha grafo  modo grafico
+    def desenha(self):
+        ##criar lista de vertices
+        lista_v = self.grafo
+        lista_a = []
+        g=nx.Graph()
+        #Converter para o formato usado pela biblioteca networkx
+        for nodo in lista_v:
+            n = nodo
+            g.add_node(n)
+            for (adjacente, peso) in self.grafo[n]:
+                lista = (n, adjacente)
+                #lista_a.append(lista)
+                g.add_edge(n,adjacente,weight=1)
+        #desenhar o grafo
+        pos = nx.spring_layout(g)
+        nx.draw_networkx(g, pos, with_labels=True, font_weight='bold')
+        labels = nx.get_edge_attributes(g, 'weight')
+        nx.draw_networkx_edge_labels(g, pos, edge_labels=labels)
+        plt.draw()
+        plt.show()
