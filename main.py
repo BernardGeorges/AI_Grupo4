@@ -2,7 +2,7 @@ from graph import graph
 
 # Press Shift+F10 to execute it or replace it with your code.
 
-file = open("circuito.txt")
+file = open("circuito2.txt")
 y = 0
 b = []
 partida = (0,0)

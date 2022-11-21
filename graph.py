@@ -16,18 +16,22 @@ class graph:
         self.ac = [(-1,-1),(-1,0),(-1,1),(0,-1),(0,0),(0,1),(1,-1),(1,0),(1,1)]
 
      #funcao que cria e devolve o grafo dos estados possiveis
-    def criaGrafo(self,pos, velocidade, aceleracao,path = [], grafo = {}):
-        if not (self.estadoNaoPossivel(pos) or (pos in path and velocidade != (0,0)) or pos in self.end):
-            path.append(pos)
-            grafo[(pos,velocidade,aceleracao)] = set()
-            newPos,newVel = self.calcNextPos(velocidade,aceleracao,pos),self.calcVel(velocidade,aceleracao)
-            for acel in self.ac:
-                newAcel = self.calcAcel(aceleracao,acel)
-                grafo[(pos, velocidade, aceleracao)].add((newPos,newVel,newAcel))
-                grafo = self.criaGrafo(newPos,newVel,newAcel,path,grafo)
+    def criaGrafo(self,pos, vel, acel):
+        porVisitar = [(pos,vel,acel)]
+        grafo = {}
+        first = True
+        while len(porVisitar) > 0:
+            posicao, velocidade, aceleracao = porVisitar.pop(0)
+            if posicao not in grafo.keys():
+                grafo[posicao] = set()
+            for newAceleracao in self.ac:
+                nextPos,nextVel,nextAcel = self.calcNextPos(posicao,velocidade,aceleracao),self.calcVel(velocidade,aceleracao),self.calcAcel(aceleracao,newAceleracao)
+                if (nextPos not in grafo.keys() or first) and self.estadoPossivel(nextPos):
+                    grafo[posicao].add(nextPos)
+                    porVisitar.append((nextPos,nextVel,nextAcel))
+            first = False
         return grafo
-        
-    
+
 
     #calcula a melhor heuristica em relação aos possiveis fins. Escolhe o melhor final para se ter
     def calcBestHeuristica(self, ponto):
@@ -40,7 +44,7 @@ class graph:
         return best
 
     #calcula o proximo nodo em relação a velocidade e aceleração (formula dada pelo stor)
-    def calcNextPos(self,vel,ac,posAtual):
+    def calcNextPos(self,posAtual,vel,ac):
         (pL,pC) = posAtual
         (vL,vC) = vel
         (aL,aC) = ac
@@ -70,8 +74,8 @@ class graph:
         return possiveis
 
    # verifica se pos não é uma posição valida para um futuro movimento (ou seja devolve true se for parede ou se a posição estiver fora do mapa)
-    def estadoNaoPossivel(self,pos):
-        return ( 0 < pos[self.X] < len(self.matrix[0])  or 0 < pos[self.Y] < len(self.matrix) or self.matrix[pos[self.Y]][pos[self.X]] == '#')
+    def estadoPossivel(self,pos):
+        return ( 0 < pos[self.X] < len(self.matrix[0]) and 0 < pos[self.Y] < len(self.matrix) and self.matrix[pos[self.Y]][pos[self.X]] != 'X')
 
     #algoritmo de pesquisa A*
     def AEstrela(self):
