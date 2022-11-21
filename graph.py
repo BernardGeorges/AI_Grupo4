@@ -26,6 +26,12 @@ class graph:
         self.ac = [(-1,-1),(-1,0),(-1,1),(0,-1),(0,0),(0,1),(1,-1),(1,0),(1,1)]
         self.grafo = self.criaGrafo(partida,(0,0),(0,0))
 
+    def __str__(self):
+        out = " "
+        for k in self.grafo.keys():
+            out = out + "node " + str(k) + ": " + str(self.grafo[k]) + "\n"
+        return out
+
      #funcao que cria e devolve o grafo dos estados possiveis
     def criaGrafo(self,pos, vel, acel):
         porVisitar = [(pos,vel,acel)]
@@ -114,12 +120,6 @@ class graph:
                ponto = self.calcNextPos(best[1],acel,best[0])
                possiveis.append((ponto,nextVel,self.calcAcel(best[2],acel),self.calcBestHeuristica(ponto)+len(path),path))
        return path
-
-    def __str__(self):
-        out = " "
-        for k in self.grafo.keys():
-            out = out + "node " + str(k) + ": " + str(self.grafo[k]) + "\n"
-        return out
     
 # desenha grafo  modo grafico
     def desenha(self):
