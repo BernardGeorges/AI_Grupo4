@@ -2,7 +2,7 @@ from graph import graph
 
 # Press Shift+F10 to execute it or replace it with your code.
 
-file = open("circuito2.txt")
+file = open("circuito.txt")
 y = 0
 b = []
 partida = (0,0)
@@ -21,7 +21,7 @@ for line in file:
     y += 1
 
 g = graph(partida,fim,b)
-print(b)
-print(fim)
-print(partida)
-print(g.criaGrafo(partida,(0,0),(0,0))) 
+g.plot()
+print(g.estadoPossivel((0,0)))
+print(g.criaGrafo(partida,(0,0)))
+print(g.AEstrela())

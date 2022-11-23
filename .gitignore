@@ -1,4 +1,9 @@
 
 .idea/
 *.xml
+.idea/workspace.xml
 __pycache__/graph.cpython-310.pyc
+setup.py
+teste.py
+.idea/workspace.xml
+.idea/workspace.xml
