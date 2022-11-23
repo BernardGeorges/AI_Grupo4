@@ -1,5 +1,16 @@
+# Biblioteca de tratamento de grafos necessária para desenhar graficamente o grafo
+import queue
+import networkx as nx
+# Biblioteca de tratamento de grafos necessária para desenhar graficamente o grafo
+import matplotlib.pyplot as plt
+
+#biblioteca necessária para se poder utilizar o valor math.inf  (infinito)
 import math
 import pygame
+
+from xmlrpc.client import Boolean
+
+
 
 class graph:
 
@@ -43,6 +54,11 @@ class graph:
         pygame.display.update()
         while True:
             pass
+    def __str__(self):
+        out = " "
+        for k in self.grafo.keys():
+            out = out + "node " + str(k) + ": " + str(self.grafo[k]) + "\n"
+        return out
 
      #funcao que cria e devolve o grafo dos estados possiveis
     def criaGrafo(self,pos, vel):
