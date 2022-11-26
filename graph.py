@@ -28,7 +28,7 @@ class graph:
         pygame.init()
         self.largura = 15
         self.altura = 15
-        self.janela = pygame.display.set_mode((30*len(matriz), 15*len(matriz[0])))
+        self.janela = pygame.display.set_mode((30*len(matriz), 30*len(matriz[0])))
 
 
     def createSquare(self,x, y, color):
@@ -52,8 +52,7 @@ class graph:
                 x += self.largura
             y += self.altura
         pygame.display.update()
-        while True:
-            pass
+
     def __str__(self):
         out = " "
         for k in self.grafo.keys():

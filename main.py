@@ -6,7 +6,7 @@ from graph import graph
 import time
 
 def main():
-    file = open("circuito2.txt")
+    file = open("circuito3.txt")
     y = 0
     b = []
     partida = (0,0)
@@ -47,9 +47,11 @@ def main():
             l=input("prima enter para continuar")
         elif saida == 2:
             #Desenhar o grafo de forma gráfica
+            g.plot()
             l=input("prima enter para continuar")
         elif saida == 3:
             #Imprimir as chaves do dicionario que representa o grafo
+            print("Resposta do Algoritmo AEstrela: " + str(g.AEstrela()))
             l = input("prima enter para continuar")
         else:
             print("Opção inválida...")
