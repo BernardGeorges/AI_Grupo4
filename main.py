@@ -1,5 +1,6 @@
 #Inteligência Artificial
 #2022/23
+import pygame
 
 #Importar classe graph
 from graph import graph
@@ -47,8 +48,10 @@ def main():
             l=input("prima enter para continuar")
         elif saida == 2:
             #Desenhar o grafo de forma gráfica
-            g.plot()
+            janela = pygame.display.set_mode((30*len(b), 30 * len(b[0])))
+           # g.plot(janela,path)
             l=input("prima enter para continuar")
+            pygame.quit()
         elif saida == 3:
             #Imprimir as chaves do dicionario que representa o grafo
             print("Resposta do Algoritmo AEstrela: " + str(g.AEstrela()))

@@ -28,30 +28,34 @@ class graph:
         pygame.init()
         self.largura = 15
         self.altura = 15
-        self.janela = pygame.display.set_mode((30*len(matriz), 30*len(matriz[0])))
 
 
-    def createSquare(self,x, y, color):
-        pygame.draw.rect(self.janela, color, [x, y, self.largura , self.altura])
+
+    def createSquare(self,x, y, color,janela):
+        pygame.draw.rect(janela, color, [x, y, self.largura, self.altura])
 
     #Faz a representação em VectorRace do circuito
-    def plot(self):
+    def plot(self,janela,path):
         y = 0
         for row in self.matrix:
             x = 0
             for item in row:
                 if item == 'X':
-                    self.createSquare(x, y, (255, 255, 255))
+                    self.createSquare(x, y, (255, 255, 255),janela)
                 elif item == 'P':
-                    self.createSquare(x,y,(0,255,0))
+                    self.createSquare(x,y,(0,255,0),janela)
                 elif item == 'F':
-                    self.createSquare(x,y,(255,0,0))
+                    self.createSquare(x,y,(255,0,0),janela)
                 else:
-                    self.createSquare(x, y, (128,128,128))
-
+                    self.createSquare(x, y, (128,128,128),janela)
                 x += self.largura
             y += self.altura
+        #for (x,y),vel in path:
+         #   x += self.largura
+          #  y += self.altura
+           # self.createSquare(x, y, (0, 0, 255), janela)
         pygame.display.update()
+
 
     def __str__(self):
         out = " "
@@ -66,15 +70,15 @@ class graph:
         first = True
         while len(porVisitar) > 0:
             posicao, velocidade = porVisitar.pop(0)
-            if posicao not in grafo.keys():
-                grafo[posicao] = set()
+            if (posicao,velocidade) not in grafo.keys():
+                grafo[(posicao,velocidade)] = set()
             for aceleracao in self.ac:
                 nextPos,nextVel = self.calcNextPos(posicao,velocidade,aceleracao),self.calcVel(velocidade,aceleracao)
-                if (nextPos not in grafo.keys() or first) and self.estadoPossivel(nextPos):
-                    grafo[posicao].add((nextPos,1))
+                if ((nextPos,nextVel) not in grafo.keys() or first) and self.estadoPossivel(nextPos) and self.passagemPossivel(posicao,nextPos):
+                    grafo[(posicao,velocidade)].add(((nextPos,nextVel),1))
                     porVisitar.append((nextPos,nextVel))
                 else:
-                    grafo[posicao].add((nextPos,25))
+                    grafo[(posicao,velocidade)].add(((nextPos,nextVel),25))
             first = False
         return grafo
 
@@ -82,7 +86,7 @@ class graph:
     # argumento isAEstrela permite utilizar esta função para ambos as pesquisas caso ser falsa ela não calcula o path
     def calcBestHeuristica(self,path,end,isAEstrela = True):
         i = len(path) - 1
-        (x1,y1) = ponto = path[i]
+        (x1,y1) = ponto = path[i][0]
         i -= 1
         best = math.inf
         for x2,y2 in end:
@@ -91,11 +95,11 @@ class graph:
                 best = tenta
         if isAEstrela:
             first = ponto
-            while i >= 0 :
-                for nodo2, peso in self.grafo[path[i]]:
+            while i >= 0:
+                for (nodo2,velocidade), peso in self.grafo[path[i]]:
                         if nodo2 == first:
                             best += peso
-                first = path[i]
+                first = path[i][0]
                 i -= 1
         return best
 
@@ -134,14 +138,14 @@ class graph:
         else:
             filhos = []
             for vel in self.ac:
-                x,y = inicio[0] + vel[0], inicio[1] + inicio[1]
-                filhos.append(((x,y),self.calcBestHeuristica([(x,y)],fim,False)))
+                x,y = inicio[0] + vel[0], inicio[1] + vel[1]
+                filhos.append(((x,y),self.calcBestHeuristica([((x,y),(0,0))],[fim],False)))
             best = ((0,0),math.inf)
             for filho, heuristica in filhos:
                 if heuristica < best[1]:
                     best = (filho,heuristica)
             if self.estadoPossivel(best[0]):
-                self.passagemPossivel(best[0], fim)
+                return self.passagemPossivel(best[0], fim)
             else:
                 return False
 
@@ -149,21 +153,28 @@ class graph:
 
     #algoritmo de pesquisa A*
     def AEstrela(self):
-        possiveis = [(self.start,self.calcBestHeuristica([self.start],self.end),[self.start])]
-        visitados = [self.start]
+        #possiveis = list de (estado: (coordenada,velocidade), heuristica, path tomado)
+        possiveis = [((self.start,(0,0)),self.calcBestHeuristica([(self.start,(0,0))],self.end),[(self.start,(0,0))])]
+        visitados = [(self.start,(0,0))]
         while len(possiveis) > 0:
-            best = ((0,0),math.inf)
-            for nodo, heuristica, path in possiveis:
+            #best = (estado, heuristica em A*,path)
+            best = (((0,0),(0,0)),math.inf,[])
+            #por todos os nodos possiveis de visitar encontra o com a melhor heuristica
+            for estado, heuristica, path in possiveis:
                 if heuristica < best[1]:
-                    best = (nodo,heuristica,path)
+                    best = (estado,heuristica,path)
+            #remove o nodo que vai visitar dos nodos que falta visitar
             possiveis.remove(best)
-            for nodos, peso in self.grafo[best[0]]:
+            #para todos os seus filhos:
+            for estado, peso in self.grafo[best[0]]:
                 pathUntilNow = best[2].copy()
-                if nodos in self.end:
-                    best[2].append(nodos)
+                #se o filho for um dos nodos finais retorna o caminho
+                if estado[0] in self.end:
+                    best[2].append(estado)
                     return best[2]
-                elif nodos not in visitados:
-                    pathUntilNow.append(nodos)
-                    visitados.append(nodos)
-                    possiveis.append((nodos,self.calcBestHeuristica(pathUntilNow,self.end),pathUntilNow))
+                # se não e não estiver nos visitados adiciona-o ao nodos ainda por visitar
+                elif estado not in visitados:
+                    pathUntilNow.append(estado)
+                    visitados.append(estado)
+                    possiveis.append((estado,self.calcBestHeuristica(pathUntilNow,self.end),pathUntilNow))
 
