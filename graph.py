@@ -75,15 +75,16 @@ class graph:
             for aceleracao in self.ac:
                 nextPos,nextVel = self.calcNextPos(posicao,velocidade,aceleracao),self.calcVel(velocidade,aceleracao)
                 if ((nextPos,nextVel) not in grafo.keys() or first) and self.estadoPossivel(nextPos) and self.passagemPossivel(posicao,nextPos):
-                    grafo[(posicao,velocidade)].add(((nextPos,nextVel),1))
+                    grafo[(posicao,velocidade)].add(((nextPos,nextVel),self.calcBestHeuristica([(posicao,velocidade)],[nextPos],False)))
                     porVisitar.append((nextPos,nextVel))
                 else:
-                    grafo[(posicao,velocidade)].add(((nextPos,nextVel),25))
+                    grafo[(posicao,velocidade)].add(((nextPos,nextVel),25*self.calcBestHeuristica([(posicao,velocidade)],[nextPos],False)))
             first = False
         return grafo
 
     #calcula a melhor heuristica em relação aos possiveis fins. Escolhe o melhor final para se ter
     # argumento isAEstrela permite utilizar esta função para ambos as pesquisas caso ser falsa ela não calcula o path
+    # recebe o path = lista de (nodo, velocidade) e uma lista de fins possiveis = nodos
     def calcBestHeuristica(self,path,end,isAEstrela = True):
         i = len(path) - 1
         (x1,y1) = ponto = path[i][0]
