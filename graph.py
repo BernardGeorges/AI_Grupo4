@@ -50,10 +50,10 @@ class graph:
                     self.createSquare(x, y, (128,128,128),janela)
                 x += self.largura
             y += self.altura
-        #for (x,y),vel in path:
-         #   x += self.largura
-          #  y += self.altura
-           # self.createSquare(x, y, (0, 0, 255), janela)
+        for (x,y), vel in path:
+            plotX = x * self.largura
+            plotY = y * self.altura
+            self.createSquare(plotX, plotY, (0, 0, 255), janela)
         pygame.display.update()
 
 

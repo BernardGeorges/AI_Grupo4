@@ -29,6 +29,7 @@ def main():
     print(b)
     print("fim: ",fim,"\n")
     print("partida:",partida,"\n")
+    path = g.AEstrela()
     #cosntrução de menu
     saida = -1
     while saida != 0:
@@ -48,8 +49,8 @@ def main():
             l=input("prima enter para continuar")
         elif saida == 2:
             #Desenhar o grafo de forma gráfica
-            janela = pygame.display.set_mode((30*len(b), 30 * len(b[0])))
-           # g.plot(janela,path)
+            janela = pygame.display.set_mode((40*len(b), 15 * len(b[0])))
+            g.plot(janela,path)
             l=input("prima enter para continuar")
             pygame.quit()
         elif saida == 3:
