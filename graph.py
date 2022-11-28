@@ -183,15 +183,12 @@ class graph:
     def desenha(self):
         ##criar lista de vertices
         lista_v = self.grafo
-        #lista_a = []
         g=nx.Graph()
         #Converter para o formato usado pela biblioteca networkx
         for nodo in lista_v.keys():
             n = nodo[0]
             g.add_node(n)
             for (estado , peso) in self.grafo[nodo]:
-                #lista = (n, estado)
-                #lista_a.append(lista)
                 g.add_edge(n,estado[0],weight=peso)
         #desenhar o grafo
         pos = nx.spring_layout(g)
