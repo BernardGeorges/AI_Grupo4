@@ -7,13 +7,16 @@ from graph import graph
 import time
 
 def main():
-    circuito = "circuito1.txt"
+    circuito = None
+    file = None
     print("Escolha o circuito que pretende usar:\n")
     cont = -1
-    while cont < 0:
+    while file == None:
         print("1 - Circuito 1 (Igual ao do enunciado)")
         print("2 - Circuito 2")
-        print("3 - Circuito 3\n")
+        print("3 - Circuito 3")
+        print("4 - Circuito 4")
+        print("5 - Adicionar circuito\n")
 
         cont = int(input("Introduza a sua opção -> "))
 
@@ -23,12 +26,22 @@ def main():
             circuito = "circuito2.txt"
         elif cont == 3:
             circuito = "circuito3.txt"
+        elif cont == 4:
+            circuito = "circuitoBasic.txt"
+        elif cont == 5:
+            print("Por favor introduza o path do circuito")
+            circuito = input()
         else:
             print("Opção inválida...")
             l = input("Prima enter para continuar")
+        try: 
+            file = open(circuito)
+        except:
+            print("\nFICHEIRO INVÁLIDO")
+            print("Por favor introduza corretamente")
+            l = input("Prima enter para continuar")
 
     print(" L O A D I N G . . .")
-    file = open(circuito)
     y = 0
     b = []
     partida = (0,0)
