@@ -63,7 +63,8 @@ class graph:
             out = out + "node " + str(k) + ": " + str(self.grafo[k]) + "\n"
         return out
 
-     #funcao que cria e devolve o grafo de todos os estados possiveis
+    #funcao que cria e devolve o grafo de todos os estados possiveis
+    #Grafo é: key = estado, ou seja, (nodo,velocidade), values são seus filhos: (estado: (nodo,velocidade), peso)
     def criaGrafo(self,pos, vel):
         porVisitar = [(pos,vel)]
         grafo = {}
@@ -179,3 +180,23 @@ class graph:
                     visitados.append(estado)
                     possiveis.append((estado,self.calcBestHeuristica(pathUntilNow,self.end),pathUntilNow))
 
+    def desenha(self):
+        ##criar lista de vertices
+        lista_v = self.grafo
+        #lista_a = []
+        g=nx.Graph()
+        #Converter para o formato usado pela biblioteca networkx
+        for nodo in lista_v.keys():
+            n = nodo[0]
+            g.add_node(n)
+            for (estado , peso) in self.grafo[nodo]:
+                #lista = (n, estado)
+                #lista_a.append(lista)
+                g.add_edge(n,estado[0],weight=peso)
+        #desenhar o grafo
+        pos = nx.spring_layout(g)
+        nx.draw_networkx(g, pos, with_labels=True, font_weight='bold')
+        labels = nx.get_edge_attributes(g, 'weight')
+        nx.draw_networkx_edge_labels(g, pos, edge_labels=labels)
+        plt.draw()
+        plt.show()
