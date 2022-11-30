@@ -102,8 +102,8 @@ def main():
             pygame.quit()
         elif saida == 3:
             #Imprimir as chaves do dicionario que representa o grafo
-            print("Resposta do Algoritmo AEstrela: " + str(g.AEstrela()))
-            print("Custo Total: " + str(g.custoFinal(g.AEstrela())))
+            print("Resposta do Algoritmo: " + str(path))
+            print("Custo Total: " + str(g.custoFinal(path)))
             l = input("Prima enter para continuar")
         else:
             print("Opção inválida...")
