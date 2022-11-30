@@ -1,6 +1,7 @@
 #Inteligência Artificial
 #2022/23
 import pygame
+import os.path, sys
 
 #Importar classe graph
 from graph import graph
@@ -34,8 +35,8 @@ def main():
         else:
             print("Opção inválida...")
             l = input("Prima enter para continuar")
-        try: 
-            file = open(circuito)
+        try:
+            file = open(os.path.join("maps", circuito))
         except:
             print("\nFICHEIRO INVÁLIDO")
             print("Por favor introduza corretamente")
@@ -95,13 +96,14 @@ def main():
             l=input("Prima enter para continuar")
         elif saida == 2:
             #Desenhar o grafo de forma gráfica
-            janela = pygame.display.set_mode((40*len(b), 15 * len(b[0])))
+            janela = pygame.display.set_mode((80*len(b), 15 * len(b[0])))
             g.plot(janela,path)
             l=input("Prima enter para continuar")
             pygame.quit()
         elif saida == 3:
             #Imprimir as chaves do dicionario que representa o grafo
             print("Resposta do Algoritmo AEstrela: " + str(g.AEstrela()))
+            print("Custo Total: " + str(g.custoFinal(g.AEstrela())))
             l = input("Prima enter para continuar")
         else:
             print("Opção inválida...")

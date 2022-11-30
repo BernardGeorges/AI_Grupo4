@@ -220,3 +220,18 @@ class graph:
         nx.draw_networkx_edge_labels(g, pos, edge_labels=labels)
         plt.draw()
         plt.show()
+
+    def custoFinal(self,response):
+        caminho = []
+        custo = 0
+        for i in response:
+            caminho.append(i[0])
+
+        for passo in caminho:
+            if self.matrix[passo[1]][passo[0]] == "X":
+                custo += 25
+            else:
+                custo += 1
+
+        custo -= 1 # nodo inicial
+        return custo
