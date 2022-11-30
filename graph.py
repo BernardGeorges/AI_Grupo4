@@ -73,14 +73,14 @@ class graph:
             posicao, velocidade = porVisitar.pop(0)
             if (posicao,velocidade) not in grafo.keys():
                 grafo[(posicao,velocidade)] = set()
-            for aceleracao in self.ac:
-                nextPos,nextVel = self.calcNextPos(posicao,velocidade,aceleracao),self.calcVel(velocidade,aceleracao)
-                if ((nextPos,nextVel) not in grafo.keys() or first) and self.estadoPossivel(nextPos) and self.passagemPossivel(posicao,nextPos):
-                    grafo[(posicao,velocidade)].add(((nextPos,nextVel),self.calcBestHeuristica([(posicao,velocidade)],[nextPos],False)))
-                    porVisitar.append((nextPos,nextVel))
-                else:
-                    grafo[(posicao,velocidade)].add(((nextPos,nextVel),25*self.calcBestHeuristica([(posicao,velocidade)],[nextPos],False)))
-            first = False
+                for aceleracao in self.ac:
+                    nextPos,nextVel = self.calcNextPos(posicao,velocidade,aceleracao),self.calcVel(velocidade,aceleracao)
+                    if ((nextPos,nextVel) not in grafo.keys() or first) and self.estadoPossivel(nextPos) and self.passagemPossivel(posicao,nextPos):
+                        grafo[(posicao,velocidade)].add(((nextPos,nextVel),self.calcBestHeuristica([(posicao,velocidade)],[nextPos],False)))
+                        porVisitar.append((nextPos,nextVel))
+                    else:
+                        grafo[(posicao,velocidade)].add(((nextPos,nextVel),25*self.calcBestHeuristica([(posicao,velocidade)],[nextPos],False)))
+                first = False
         return grafo
 
     #calcula a melhor heuristica em relação aos possiveis fins. Escolhe o melhor final para se ter
