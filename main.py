@@ -27,7 +27,7 @@ def main():
         elif cont == 3:
             circuito = "circuito3.txt"
         elif cont == 4:
-            circuito = "circuitoBasic.txt"
+            circuito = "circuito4.txt"
         elif cont == 5:
             print("Por favor introduza o path do circuito")
             circuito = input()
