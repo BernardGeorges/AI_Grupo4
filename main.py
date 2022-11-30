@@ -63,9 +63,21 @@ def main():
     # print(b)
     print("Partida:", partida, "\n")
     print("Fim: ", fim, "\n")
-    path = g.AEstrela()
     #cosntrução de menu
     saida = -1
+    while saida != 1 and saida!=2:
+        print("1 - BFS")
+        print("2 - AEstrela")
+
+        saida = int(input("Introduza a sua opção -> "))
+        if saida == 1:
+            path = g.procura_BFS()
+        elif saida == 2:
+            path = g.AEstrela()
+        else:
+            print("Opção inválida...")
+            l = input("Prima enter para continuar")
+    saida=-1
     while saida != 0:
         print("1 - Imprimir Grafo do circuito")
         print("2 - Desenhar circuito em VectorRace")

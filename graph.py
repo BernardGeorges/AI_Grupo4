@@ -63,6 +63,9 @@ class graph:
             out = out + "node " + str(k) + ": " + str(self.grafo[k]) + "\n"
         return out
 
+    
+
+
     #funcao que cria e devolve o grafo de todos os estados possiveis
     #Grafo é: key = estado, ou seja, (nodo,velocidade), values são seus filhos: (estado: (nodo,velocidade), peso)
     def criaGrafo(self,pos, vel):
@@ -76,10 +79,12 @@ class graph:
                 for aceleracao in self.ac:
                     nextPos,nextVel = self.calcNextPos(posicao,velocidade,aceleracao),self.calcVel(velocidade,aceleracao)
                     if ((nextPos,nextVel) not in grafo.keys() or first) and self.estadoPossivel(nextPos) and self.passagemPossivel(posicao,nextPos):
+                        #grafo[(posicao,velocidade)].add(((nextPos,nextVel),1))
                         grafo[(posicao,velocidade)].add(((nextPos,nextVel),self.calcBestHeuristica([(posicao,velocidade)],[nextPos],False)))
                         porVisitar.append((nextPos,nextVel))
                     else:
                         grafo[(posicao,velocidade)].add(((nextPos,nextVel),25*self.calcBestHeuristica([(posicao,velocidade)],[nextPos],False)))
+                        if (nextPos,nextVel) not in grafo.keys(): grafo[(nextPos,nextVel)] = set()
                 first = False
         return grafo
 
@@ -151,7 +156,25 @@ class graph:
             else:
                 return False
 
+    def procura_BFS(self):
+        # definir nodos visitados para evitar ciclos
+        visited = set()
+        fila = queue.Queue()
 
+        # adicionar o nodo inicial à fila e aos visitados
+        fila.put(((self.start,(0,0)),[(self.start,(0,0))],0))
+        visited.add((self.start,(0,0)))
+
+
+        while not fila.empty():
+            nodo_atual = fila.get()
+            if nodo_atual[0][0] in self.end:
+                return nodo_atual[1]
+            else:
+                for (adjacente, peso) in self.grafo[nodo_atual[0]]:
+                    if adjacente not in visited:
+                        fila.put((adjacente,nodo_atual[1]+[adjacente],nodo_atual[2]+peso))
+                        visited.add(adjacente)
 
     #algoritmo de pesquisa A*
     def AEstrela(self):
