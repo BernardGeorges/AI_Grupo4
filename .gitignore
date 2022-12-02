@@ -7,3 +7,6 @@ setup.py
 teste.py
 .idea/workspace.xml
 .idea/workspace.xml
+src/__pycache__/graph.cpython-310.pyc
+.idea/workspace.xml
+src/__pycache__/algoritmos.cpython-310.pyc
