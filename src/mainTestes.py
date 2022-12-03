@@ -26,7 +26,7 @@ def main():
     algs = algoritmos(g,partida[0],fim)
     print("passagem é: ", g.passagemPossivel((2,3),(1,3),True))
     print(b)
-    print("passagem é: ", algs.DFS((partida[0],(0,0)),fim))
+    print("passagem é: ", algs.DFS())
 
 if __name__ == "__main__":
     main()
