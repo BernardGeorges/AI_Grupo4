@@ -7,9 +7,6 @@ setup.py
 teste.py
 .idea/workspace.xml
 .idea/workspace.xml
-fase2/__pycache__/algoritmos.cpython-310.pyc
-.idea/workspace.xml
-fase2/__pycache__/algoritmos.cpython-310.pyc
-src/__pycache__/algoritmos.cpython-310.pyc
-fase2/__pycache__/algoritmos.cpython-310.pyc
 src/__pycache__/graph.cpython-310.pyc
+.idea/workspace.xml
+src/__pycache__/algoritmos.cpython-310.pyc

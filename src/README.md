@@ -10,8 +10,10 @@ a97257 - João Miguel Ferreira Loureiro
 
 To Do:    
 Parte 1:   
-    Entregue!!!  
+    Relatorio   
 Parte 2:   
+    Fazer o BFS   
+    Fazer o DFS   
     Fazer multibots   
     Apresentar o caminho percorrido ao longo da
 execução em cada um dos algoritmos desenvolvidos.

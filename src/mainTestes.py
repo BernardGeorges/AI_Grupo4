@@ -1,10 +1,9 @@
-import pygame
 
 from algoritmos import algoritmos
 from graph import graph
 import time
 def main():
-    circuito = "./maps/circuito1.txt"
+    circuito = "./maps/circuito3.txt"
     file = open(circuito)
     y = 0
     b = []
@@ -27,14 +26,7 @@ def main():
     algs = algoritmos(g,partida[0],fim)
     print("passagem é: ", g.passagemPossivel((2,3),(1,3),True))
     print(b)
-    path = algs.Greedy()
-    print("passagem é: ", path)
-    # Desenhar o grafo de forma gráfica
-    janela = pygame.display.set_mode((30 * len(b[0]), 30 * len(b)))
-    g.plot(janela, path)
-    l = input("Prima enter para continuar")
-    pygame.quit()
-
+    print("passagem é: ", algs.DFS((partida[0],(0,0)),fim))
 
 if __name__ == "__main__":
     main()
