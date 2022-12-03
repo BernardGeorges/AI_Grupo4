@@ -56,22 +56,21 @@ class algoritmos:
                 resultado = self.Greedy(best_node[0],path,visited)
         return resultado
 
-    def DFS(self, estado, fim, path=[], visitados=set()):
-        if estado[0] in fim:
-            return path.append(estado)
-        else:
-            filhos = queue.Queue()
-            path.append(estado)
-            visitados.add(estado)
-            for (adjacente, peso) in self.grafo[estado]:
-                if adjacente not in visitados:
-                    filhos.put(adjacente)
-            resultado = None
-            while resultado is None and not filhos.empty():
-                best_node = filhos.get()
-                resultado = self.DFS(best_node, fim, path, visitados)
-                path.remove(best_node)
-            return resultado
+    def DFS(self):
+        visited = set()
+        stack = []
+        # adicionar o nodo inicial à fila e aos visitados
+        stack.append(((self.start, (0, 0)), [(self.start, (0, 0))], 0))
+        visited.add((self.start, (0, 0)))
+        while len(stack) > 0:
+            nodo_atual = stack.pop()
+            if nodo_atual[0][0] in self.end:
+                return nodo_atual[1]
+            else:
+                for (adjacente, peso) in self.grafo[nodo_atual[0]]:
+                    if adjacente not in visited:
+                        stack.append((adjacente, nodo_atual[1] + [adjacente], nodo_atual[2] + peso))
+                        visited.add(adjacente)
 
     def BFS(self):
         # definir nodos visitados para evitar ciclos
@@ -80,7 +79,6 @@ class algoritmos:
         # adicionar o nodo inicial à fila e aos visitados
         fila.put(((self.start,(0,0)),[(self.start,(0,0))],0))
         visited.add((self.start,(0,0)))
-
         while not fila.empty():
             nodo_atual = fila.get()
             if nodo_atual[0][0] in self.end:
