@@ -19,41 +19,61 @@ class graph:
     # Y se encontra no pos[1]
     Y = 1
     
-    def __init__(self,partida,fim,matriz):
-        self.start = partida
-        self.end = fim
+    def __init__(self,partida,matriz):
         self.matrix = matriz
         self.ac = [(-1,-1),(-1,0),(-1,1),(0,-1),(0,0),(0,1),(1,-1),(1,0),(1,1)]
         self.grafo = self.criaGrafo(partida,(0,0))
         pygame.init()
-        self.largura = 15
-        self.altura = 15
 
 
+    def getGrafo(self):
+        return self.grafo
 
-    def createSquare(self,x, y, color,janela):
-        pygame.draw.rect(janela, color, [x, y, self.largura, self.altura])
+    def createSquare(self,x, y, color,janela,x1,y1,x2,y2):
+        pygame.draw.rect(janela, color, [x, y, math.ceil(x1/x2), math.ceil(y1/y2)])
 
-    #Faz a representação em VectorRace do circuito
-    def plot(self,janela,path):
+    def plot(self,janela,x1,y1):
+        y2=len(self.matrix)
+        x2=len(self.matrix[0])
         y = 0
         for row in self.matrix:
             x = 0
             for item in row:
                 if item == 'X':
-                    self.createSquare(x, y, (255, 255, 255),janela)
+                    self.createSquare(x, y, (255, 255, 255),janela,x1,y1,x2,y2)
                 elif item == 'P':
-                    self.createSquare(x,y,(0,255,0),janela)
+                    self.createSquare(x,y,(0,255,0),janela,x1,y1,x2,y2)
                 elif item == 'F':
-                    self.createSquare(x,y,(255,0,0),janela)
+                    self.createSquare(x,y,(255,0,0),janela,x1,y1,x2,y2)
                 else:
-                    self.createSquare(x, y, (128,128,128),janela)
-                x += self.largura
-            y += self.altura
+                    self.createSquare(x, y, (128,128,128),janela,x1,y1,x2,y2)
+                x += x1/x2
+            y += y1/y2
+        pygame.display.update()
+        return x, y
+
+    #Faz a representação em VectorRace do circuito
+    def plotpath(self,janela,path,x1,y1):
+        y2=len(self.matrix)
+        x2=len(self.matrix[0])
+        y = 0
+        for row in self.matrix:
+            x = 0
+            for item in row:
+                if item == 'X':
+                    self.createSquare(x, y, (255, 255, 255),janela,x1,y1,x2,y2)
+                elif item == 'P':
+                    self.createSquare(x,y,(0,255,0),janela,x1,y1,x2,y2)
+                elif item == 'F':
+                    self.createSquare(x,y,(255,0,0),janela,x1,y1,x2,y2)
+                else:
+                    self.createSquare(x, y, (128,128,128),janela,x1,y1,x2,y2)
+                x += x1/x2
+            y += y1/y2
         for (x,y), vel in path:
-            plotX = x * self.largura
-            plotY = y * self.altura
-            self.createSquare(plotX, plotY, (0, 0, 255), janela)
+            plotX = x * x1/x2
+            plotY = y * y1/y2
+            self.createSquare(plotX, plotY, (0, 0, 255), janela,x1,y1,x2,y2)
         pygame.display.update()
 
 
@@ -75,16 +95,19 @@ class graph:
                 grafo[(posicao,velocidade)] = set()
                 for aceleracao in self.ac:
                     nextPos,nextVel = self.calcNextPos(posicao,velocidade,aceleracao),self.calcVel(velocidade,aceleracao)
-                    if ((nextPos,nextVel) not in grafo.keys() or first) and self.estadoPossivel(nextPos) and self.passagemPossivel(posicao,nextPos):
+                    if ((nextPos,nextVel) not in grafo.keys() or first) and self.estadoPossivel(nextPos) and self.passagemPossivel(posicao,nextPos,True):
                         grafo[(posicao,velocidade)].add(((nextPos,nextVel),self.calcBestHeuristica([(posicao,velocidade)],[nextPos],False)))
                         porVisitar.append((nextPos,nextVel))
                     else:
                         grafo[(posicao,velocidade)].add(((nextPos,nextVel),25*self.calcBestHeuristica([(posicao,velocidade)],[nextPos],False)))
+                        if (nextPos, nextVel) not in grafo.keys():
+                            grafo[(nextPos, nextVel)] = set()
+                            grafo[(nextPos, nextVel)].add(((posicao,velocidade),25))
                 first = False
         return grafo
 
     #calcula a melhor heuristica em relação aos possiveis fins. Escolhe o melhor final para se ter
-    # argumento isAEstrela permite utilizar esta função para ambos as pesquisas caso ser falsa ela não calcula o path
+    # argumento isAEstrela permite utilizar esta função para ambos as pesquisas caso ser falsa ela não calcula o custo do path
     # recebe o path = lista de (nodo, velocidade) e uma lista de fins possiveis = nodos
     def calcBestHeuristica(self,path,end,isAEstrela = True):
         i = len(path) - 1
@@ -133,52 +156,52 @@ class graph:
     def estadoPossivel(self,pos):
         return ( 0 < pos[self.X] < len(self.matrix[0]) and 0 < pos[self.Y] < len(self.matrix) and self.matrix[pos[self.Y]][pos[self.X]] != 'X')
 
-    #verifica se há uma passagem direta entre o inicio (possição inicial) e fim (pos final)
-    def passagemPossivel(self,inicio,fim):
+     #verifica se há uma passagem direta entre o inicio (coordenadas da possição inicial) e fim (pos final)
+    def passagemPossivel(self,inicio,fim,first: bool,ac = []):
         if inicio == fim:
             return True
         else:
+            if first:
+                ac = []
+            if len(ac) == 0:
+                difX, difY = fim[0] - inicio[0], fim[1] - inicio[1]
+                if difX > 0:
+                    ac.append((1,0))
+                elif difX < 0:
+                    ac.append((-1,0))
+                if difY > 0:
+                    ac.append((0,1))
+                    if (ac[0][0], 1) not in ac:
+                        ac.append((ac[0][0],1))
+                elif difY < 0:
+                    ac.append((0, -1))
+                    if (ac[0][0], -1) not in ac:
+                        ac.append((ac[0][0], -1))
+            factor = ac[len(ac)-1]
             filhos = []
-            for vel in self.ac:
+            for vel in ac:
                 x,y = inicio[0] + vel[0], inicio[1] + vel[1]
-                filhos.append(((x,y),self.calcBestHeuristica([((x,y),(0,0))],[fim],False)))
-            best = ((0,0),math.inf)
-            for filho, heuristica in filhos:
-                if heuristica < best[1]:
-                    best = (filho,heuristica)
-            if self.estadoPossivel(best[0]):
-                return self.passagemPossivel(best[0], fim)
-            else:
-                return False
+                if x*factor[0] <= fim[0]*factor[0] and y*factor[1] <= fim[1]*factor[1]:
+                    filhos.append(((x,y),self.calcBestHeuristica([((x,y),(0,0))],[fim],False)))
+            filhos.sort(key = lambda a: a[1])
+            result = False
+            while len(filhos) > 0 and result is False:
+                best = filhos.pop(0)
+                result = self.passagemPossivel(best[0], fim, False, ac)
+            return result
 
-
-
-    #algoritmo de pesquisa A*
-    def AEstrela(self):
-        #possiveis = list de (estado: (coordenada,velocidade), heuristica, path tomado)
-        possiveis = [((self.start,(0,0)),self.calcBestHeuristica([(self.start,(0,0))],self.end),[(self.start,(0,0))])]
-        visitados = [(self.start,(0,0))]
-        while len(possiveis) > 0:
-            #best = (estado, heuristica em A*,path)
-            best = (((0,0),(0,0)),math.inf,[])
-            #por todos os nodos possiveis de visitar encontra o com a melhor heuristica
-            for estado, heuristica, path in possiveis:
-                if heuristica < best[1]:
-                    best = (estado,heuristica,path)
-            #remove o nodo que vai visitar dos nodos que falta visitar
-            possiveis.remove(best)
-            #para todos os seus filhos:
-            for estado, peso in self.grafo[best[0]]:
-                pathUntilNow = best[2].copy()
-                #se o filho for um dos nodos finais retorna o caminho
-                if estado[0] in self.end:
-                    best[2].append(estado)
-                    return best[2]
-                # se não e não estiver nos visitados adiciona-o ao nodos ainda por visitar
-                elif estado not in visitados:
-                    pathUntilNow.append(estado)
-                    visitados.append(estado)
-                    possiveis.append((estado,self.calcBestHeuristica(pathUntilNow,self.end),pathUntilNow))
+    def custoFinal(self, response):
+            caminho = []
+            custo = 0
+            for i in response:
+                caminho.append(i[0])
+            for passo in caminho:
+                if self.matrix[passo[1]][passo[0]] == "X":
+                    custo += 25
+                else:
+                    custo += 1
+            custo -= 1  # nodo inicial
+            return custo
 
     def desenha(self):
         ##criar lista de vertices
