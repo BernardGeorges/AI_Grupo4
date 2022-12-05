@@ -24,35 +24,56 @@ class graph:
         self.ac = [(-1,-1),(-1,0),(-1,1),(0,-1),(0,0),(0,1),(1,-1),(1,0),(1,1)]
         self.grafo = self.criaGrafo(partida,(0,0))
         pygame.init()
-        self.largura = 15
-        self.altura = 15
+
 
     def getGrafo(self):
         return self.grafo
 
-    def createSquare(self,x, y, color,janela):
-        pygame.draw.rect(janela, color, [x, y, self.largura, self.altura])
+    def createSquare(self,x, y, color,janela,x1,y1,x2,y2):
+        pygame.draw.rect(janela, color, [x, y, math.ceil(x1/x2), math.ceil(y1/y2)])
 
-    #Faz a representação em VectorRace do circuito
-    def plot(self,janela,path):
+    def plot(self,janela,x1,y1):
+        y2=len(self.matrix)
+        x2=len(self.matrix[0])
         y = 0
         for row in self.matrix:
             x = 0
             for item in row:
                 if item == 'X':
-                    self.createSquare(x, y, (255, 255, 255),janela)
+                    self.createSquare(x, y, (255, 255, 255),janela,x1,y1,x2,y2)
                 elif item == 'P':
-                    self.createSquare(x,y,(0,255,0),janela)
+                    self.createSquare(x,y,(0,255,0),janela,x1,y1,x2,y2)
                 elif item == 'F':
-                    self.createSquare(x,y,(255,0,0),janela)
+                    self.createSquare(x,y,(255,0,0),janela,x1,y1,x2,y2)
                 else:
-                    self.createSquare(x, y, (128,128,128),janela)
-                x += self.largura
-            y += self.altura
+                    self.createSquare(x, y, (128,128,128),janela,x1,y1,x2,y2)
+                x += x1/x2
+            y += y1/y2
+        pygame.display.update()
+        return x, y
+
+    #Faz a representação em VectorRace do circuito
+    def plotpath(self,janela,path,x1,y1):
+        y2=len(self.matrix)
+        x2=len(self.matrix[0])
+        y = 0
+        for row in self.matrix:
+            x = 0
+            for item in row:
+                if item == 'X':
+                    self.createSquare(x, y, (255, 255, 255),janela,x1,y1,x2,y2)
+                elif item == 'P':
+                    self.createSquare(x,y,(0,255,0),janela,x1,y1,x2,y2)
+                elif item == 'F':
+                    self.createSquare(x,y,(255,0,0),janela,x1,y1,x2,y2)
+                else:
+                    self.createSquare(x, y, (128,128,128),janela,x1,y1,x2,y2)
+                x += x1/x2
+            y += y1/y2
         for (x,y), vel in path:
-            plotX = x * self.largura
-            plotY = y * self.altura
-            self.createSquare(plotX, plotY, (0, 0, 255), janela)
+            plotX = x * x1/x2
+            plotY = y * y1/y2
+            self.createSquare(plotX, plotY, (0, 0, 255), janela,x1,y1,x2,y2)
         pygame.display.update()
 
 
@@ -125,18 +146,17 @@ class graph:
         return (retVL,retVC)
 
     #remove da lista de nodos seguintes todos que passem pelo o nodo atual (nota: devia ter um já visitados para retirar tmb)
-    #def removePossiveis(self,next,possiveis):
-    #    for (nodo, velAtual, acelAtual, heuristica,path) in possiveis:
-    #        if next == nodo:
-    #            possiveis.remove((nodo, velAtual, acelAtual, heuristica,path))
-    #    return possiveis
+    def removePossiveis(self,next,possiveis):
+        for (nodo, velAtual, acelAtual, heuristica,path) in possiveis:
+            if next == nodo:
+                possiveis.remove((nodo, velAtual, acelAtual, heuristica,path))
+        return possiveis
 
-   # recebe apenas a coordenada
    # verifica se pos não é uma posição valida para um futuro movimento (ou seja devolve true se for parede ou se a posição estiver fora do mapa)
     def estadoPossivel(self,pos):
         return ( 0 < pos[self.X] < len(self.matrix[0]) and 0 < pos[self.Y] < len(self.matrix) and self.matrix[pos[self.Y]][pos[self.X]] != 'X')
 
-    #verifica se há uma passagem direta entre o inicio (coordenadas da possição inicial) e fim (pos final)
+     #verifica se há uma passagem direta entre o inicio (coordenadas da possição inicial) e fim (pos final)
     def passagemPossivel(self,inicio,fim,first: bool,ac = []):
         if inicio == fim:
             return True
@@ -161,7 +181,7 @@ class graph:
             filhos = []
             for vel in ac:
                 x,y = inicio[0] + vel[0], inicio[1] + vel[1]
-                if x*factor[0] <= fim[0]*factor[0] and y*factor[1] <= fim[1]*factor[1]:
+                if x*factor[0] <= fim[0]*factor[0] and y*factor[1] <= fim[1]*factor[1] and self.estadoPossivel((x,y)):
                     filhos.append(((x,y),self.calcBestHeuristica([((x,y),(0,0))],[fim],False)))
             filhos.sort(key = lambda a: a[1])
             result = False
@@ -171,17 +191,17 @@ class graph:
             return result
 
     def custoFinal(self, response):
-        caminho = []
-        custo = 0
-        for i in response:
-            caminho.append(i[0])
-        for passo in caminho:
-            if self.matrix[passo[1]][passo[0]] == "X":
-                custo += 25
-            else:
-                custo += 1
-        custo -= 1  # nodo inicial
-        return custo
+            caminho = []
+            custo = 0
+            for i in response:
+                caminho.append(i[0])
+            for passo in caminho:
+                if self.matrix[passo[1]][passo[0]] == "X":
+                    custo += 25
+                else:
+                    custo += 1
+            custo -= 1  # nodo inicial
+            return custo
 
     def desenha(self):
         ##criar lista de vertices
@@ -200,4 +220,3 @@ class graph:
         nx.draw_networkx_edge_labels(g, pos, edge_labels=labels)
         plt.draw()
         plt.show()
-
