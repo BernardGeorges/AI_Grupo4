@@ -12,14 +12,15 @@ from screeninfo import get_monitors
 import circuitos
 
 def main():
+
     pygame.init()
     #m = get_monitors()
     #print(str(m))
     #for m in get_monitors:
     #    s = str(m).split()
     #    if s[7]==True:
-    #        width=s[2]
-    #        heigth=s[3]
+    #width=s[2]
+    #heigth=s[3]
     width = 1920
     height = 1080
     res=(width,height)
@@ -27,13 +28,13 @@ def main():
     screen = pygame.display.set_mode(res) 
     # white color 
     white = (255,255,255) 
-    
+
     # light shade of the button 
     color_light = (170,170,170) 
-    
+
     # dark shade of the button 
     color_dark = (100,100,100) 
-    
+
     red = (255,0,0)
 
     #dark theme colors
@@ -56,15 +57,15 @@ def main():
     circuitoopcional = smallfont.render('Adicionar circuito', True, white)
     vectorace = bigfont.render('VECTOR RACE', True, red)
     DISPLAYSURF = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-    
+
     pygame.display.set_caption('VECTOR RACE')
     flag = True
     while flag:
         for ev in pygame.event.get(): 
-            
+
             if ev.type == pygame.QUIT: 
                 pygame.quit() 
-            
+
             #checks if a mouse is clicked
             if ev.type == pygame.MOUSEBUTTONDOWN: 
 
@@ -74,7 +75,7 @@ def main():
                     flag = False
                     screen=pygame.quit()
                     break
-                     
+
                 if 218 <= mouse[0] <= 578 and height-140 <= mouse[1] <= height-100: 
                     circuitoop = inputbox.screen()
                 if 210 <= mouse[0] <= 420 and height/2-20 <= mouse[1] <= height/2+95: 
@@ -82,23 +83,26 @@ def main():
                     screen.fill(dark_theme)
                     pygame.display.update()
                     aux.interagircircuito(screen, g, y , b,partida,fim)
-                    flag = False
                     break
-                    
+
                 if 610 <= mouse[0] <= 820 and height/2-20 <= mouse[1] <= height/2+60: 
                     g, y, b,partida,fim = circuitos.loadcircuit("circuito2.txt")
                     screen.fill(dark_theme)
                     pygame.display.update()
-                    aux.interagircircuito(screen, g, y , b)
+                    aux.interagircircuito(screen, g, y , b,partida,fim)
+                    break
                 if 1010 <= mouse[0] <= 1220 and height/2-20 <= mouse[1] <= height/2+60: 
                     g, y, b,partida,fim = circuitos.loadcircuit("circuito3.txt")
                     screen.fill(dark_theme)
                     pygame.display.update()
-                    aux.interagircircuito(screen, g, y , b)
+                    aux.interagircircuito(screen, g, y , b,partida,fim)
+                    break
                 if 1410 <= mouse[0] <= 1620 and height/2-20 <= mouse[1] <= height/2+60: 
                     g, y, b,partida,fim = circuitos.loadcircuit("circuito4.txt")
                     screen.fill(dark_theme)
                     pygame.display.update()
+                    aux.interagircircuito(screen, g, y , b,partida,fim)
+                    break
                 
 
         if flag:                
@@ -177,95 +181,6 @@ def main():
 
             # updates the frames of the game 
             pygame.display.update() 
-
-    circuito = None
-    file = None
-    print("Escolha o circuito que pretende usar:\n")
-    cont = -1
-    while file == None:
-        print("1 - Circuito 1 (Igual ao do enunciado)")
-        print("2 - Circuito 2")
-        print("3 - Circuito 3")
-        print("4 - Circuito 4")
-        print("5 - Adicionar circuito\n")
-
-        cont = int(input("Introduza a sua opção -> "))
-
-        if cont == 1:
-            circuito = "circuito1.txt"
-        elif cont == 2:
-            circuito = "circuito2.txt"
-        elif cont == 3:
-            circuito = "circuito4.txt"
-        elif cont == 4:
-            circuito = "circuitoBasic.txt"
-        elif cont == 5:
-            print("Por favor introduza o path do circuito")
-            circuito = input()
-        else:
-            print("Opção inválida...")
-            l = input("Prima enter para continuar")
-        try: 
-            file = open(circuito)
-        except:
-            print("\nFICHEIRO INVÁLIDO")
-            print("Por favor introduza corretamente")
-            l = input("Prima enter para continuar")
-
-    print(" L O A D I N G . . .")
-    y = 0
-    b = []
-    partida = (0,0)
-    fim = []
-    for line in file:
-        x = 0
-        b.append([])
-        for char in line:
-            if char != ' ' and char != '\n':
-                b[y].append(char)
-                if char == 'P':
-                    partida = (x,y)
-                if char == 'F':
-                    fim.append((x,y))
-                x += 1
-        y += 1
-
-    g = graph(partida,fim,b)
-    # print(b)
-    print("Partida:", partida, "\n")
-    print("Fim: ", fim, "\n")
-    path = g.AEstrela()
-    #cosntrução de menu
-    saida = -1
-    while saida != 0:
-        print("1 - Imprimir Grafo do circuito")
-        print("2 - Desenhar circuito em VectorRace")
-        print("3 - Resolver o problema utilizando um algoritmo")
-        print("0 - Saír")
-
-        saida = int(input("Introduza a sua opção -> "))
-        if saida == 0:
-            print("Saindo.......")
-        elif saida == 1:
-            #Escrever o grafo como string
-            print(g)
-            time.sleep(1)
-            g.desenha()
-            l=input("Prima enter para continuar")
-        elif saida == 2:
-            #Desenhar o grafo de forma gráfica
-            janela = pygame.display.set_mode((40*len(b), 15 * len(b[0])))
-            g.plot(janela,path)
-            l=input("Prima enter para continuar")
-            pygame.quit()
-        elif saida == 3:
-            #Imprimir as chaves do dicionario que representa o grafo
-            print("Resposta do Algoritmo AEstrela: " + str(g.AEstrela()))
-            l = input("Prima enter para continuar")
-        else:
-            print("Opção inválida...")
-            l = input("Prima enter para continuar")
-
 
 
 if __name__ == "__main__":

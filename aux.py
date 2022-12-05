@@ -35,6 +35,9 @@ aestrela = smallfont.render('A-Estrela', True, white)
 greedy = smallfont.render('Greedy', True, white)
 bfs = smallfont.render('BFS', True, white)
 dfs = smallfont.render('DFS', True, white)
+algoritmo= smallfont.render('Escolher outro algoritmo', True, white)
+grafo = smallfont.render('Desenhar o Grafo', True, white)
+voltar = smallfont.render('Voltar', True, white)
 vectorace = bigfont.render('VECTOR RACE', True, red)
 DISPLAYSURF = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
@@ -49,7 +52,7 @@ def interagircircuito(screen,g:graph , y, b,partida,fim):
 
     g.plot(circuito,600,400)
     flag=True
-    while True:
+    while flag:
         for ev in pygame.event.get(): 
             
             if ev.type == pygame.QUIT: 
@@ -62,10 +65,11 @@ def interagircircuito(screen,g:graph , y, b,partida,fim):
                 # button the game is terminated 
                 if  width-240 <= mouse[0] <= width-100 and height-140 <= mouse[1] <= height-100: 
                     flag = False
-                    pygame.quit()
+                    screen=pygame.quit()
                     break
                 if 218 <= mouse[0] <= 578 and height-140 <= mouse[1] <= height-100: 
-                    circuitoop = inputbox.screen()
+                    flag=False
+                    break
 
                 #A-Estrela
                 if 210 <= mouse[0] <= 420 and height/2 +250 <= mouse[1] <= height/2+330: 
@@ -90,8 +94,8 @@ def interagircircuito(screen,g:graph , y, b,partida,fim):
 
                 #DFS
                 if 1410 <= mouse[0] <= 1620 and height/2 +250 <= mouse[1] <= height/2+330: 
-                    g = circuitos.loadcircuit("aestrela.txt")
                     screen.fill(dark_theme)
+                    pygame.display.update()
                     interagealg(screen,4,g,y,b,partida,fim)
 
 
@@ -113,6 +117,14 @@ def interagircircuito(screen,g:graph , y, b,partida,fim):
             #Sair darker shade
             else:
                 pygame.draw.rect(screen,color_dark,[width-240,height-145,95,48]) 
+
+            #Voltar light shade
+            if 218 <= mouse[0] <= 346 and height-140 <= mouse[1] <= height-100:
+                pygame.draw.rect(screen,color_light,[218,height-145,128,48])
+            #Voltar darker shade
+            else:
+                pygame.draw.rect(screen,color_dark,[218,height-145,128,48]) 
+
 
 
             #aestrela light shade
@@ -151,6 +163,7 @@ def interagircircuito(screen,g:graph , y, b,partida,fim):
             screen.blit(vectorace,(width/2-250, 50))
             screen.blit(select, (width/2-380,height/2 - 400))
             screen.blit(quit , (width-230,height-140))
+            screen.blit(voltar,(230,height-140))
 
             screen.blit(aestrela , (230,height/2 +270))
             screen.blit(greedy , (630,height/2 +270))
@@ -182,11 +195,11 @@ def interagealg(screen,alg,g:graph.graph, y, b, partida,fim):
 
     g.plotpath(circuito,path,600,400)
     flag=True
-    while True:
+    while flag:
         for ev in pygame.event.get(): 
             
             if ev.type == pygame.QUIT: 
-                pygame.quit() 
+                screen=pygame.quit()
             
             #checks if a mouse is clicked
             if ev.type == pygame.MOUSEBUTTONDOWN: 
@@ -196,30 +209,24 @@ def interagealg(screen,alg,g:graph.graph, y, b, partida,fim):
                 if  width-240 <= mouse[0] <= width-100 and height-140 <= mouse[1] <= height-100: 
                     flag = False
                     pygame.quit()
+                    flag=False
                     break
                 if 218 <= mouse[0] <= 578 and height-140 <= mouse[1] <= height-100: 
                     circuitoop = inputbox.screen()
 
-                #A-Estrela
-                if 210 <= mouse[0] <= 420 and height/2 +250 <= mouse[1] <= height/2+330: 
-                    screen.fill(dark_theme)
+                #Mostrar Grafo
+                if 350 <= mouse[0] <= 560 and height/2 +250 <= mouse[1] <= height/2+330: 
+                    g.desenha()
                     pygame.display.update()
 
-                    
-                #Greedy
-                if 610 <= mouse[0] <= 820 and height/2 +250 <= mouse[1] <= height/2+330: 
+                #Usar outro algoritmo
+                if 1310 <= mouse[0] <= 1760 and height/2+250 <= mouse[1] <= height/2+330: 
                     screen.fill(dark_theme)
                     pygame.display.update()
+                    flag=False
+                    interagircircuito(screen, g, y , b,partida,fim)
+                    break
 
-                #BFS
-                if 1010 <= mouse[0] <= 1220 and height/2 +250 <= mouse[1] <= height/2+330: 
-                    screen.fill(dark_theme)
-                    pygame.display.update()
-
-                #DFS
-                if 1410 <= mouse[0] <= 1620 and height/2 +250 <= mouse[1] <= height/2+330: 
-                    g = circuitos.loadcircuit("aestrela.txt")
-                    screen.fill(dark_theme)
 
                 
         if flag:                
@@ -241,47 +248,29 @@ def interagealg(screen,alg,g:graph.graph, y, b, partida,fim):
                 pygame.draw.rect(screen,color_dark,[width-240,height-145,95,48]) 
 
 
-            #aestrela light shade
-            if 210 <= mouse[0] <= 420 and height/2 +250 <= mouse[1] <= height/2+330: 
-                pygame.draw.rect(screen,color_light,[210,height/2 +250 ,210,80])
+            #grafo light shade
+            if 350 <= mouse[0] <= 560 and height/2 +250 <= mouse[1] <= height/2+330: 
+                pygame.draw.rect(screen,color_light,[210,height/2 +250 ,350,80])
                 
-            #aestrela darker shade    
+            #grafo darker shade    
             else: 
-                pygame.draw.rect(screen,color_dark,[210,height/2 +250 ,210,80]) 
+                pygame.draw.rect(screen,color_dark,[210,height/2 +250 ,350,80]) 
 
-            #greedy light shade
-            if 610 <= mouse[0] <= 820 and height/2 +250 <= mouse[1] <= height/2+330: 
-                pygame.draw.rect(screen,color_light,[610,height/2 +250 ,210,80]) 
-            #greedy darker shade    
+
+            #algoritmo light shade
+            if 1310 <= mouse[0] <= 1760 and height/2+250 <= mouse[1] <= height/2+330: 
+                pygame.draw.rect(screen,color_light,[1310,height/2 +250 ,450,80]) 
+            #algoritmo darker shade    
             else: 
-                pygame.draw.rect(screen,color_dark,[610,height/2 +250 ,210,80]) 
-
-
-            #bfs light shade
-            if 1010 <= mouse[0] <= 1140 and height/2 +250 <= mouse[1] <= height/2+330: 
-                pygame.draw.rect(screen,color_light,[1010,height/2 +250 ,130,80]) 
-            #bfs darker shade    
-            else: 
-                pygame.draw.rect(screen,color_dark,[1010,height/2 +250 ,130,80]) 
-
-
-            #dfs light shade
-            if 1410 <= mouse[0] <= 1540 and height/2+250 <= mouse[1] <= height/2+330: 
-                pygame.draw.rect(screen,color_light,[1410,height/2 +250 ,130,80]) 
-            #dfs darker shade    
-            else: 
-                pygame.draw.rect(screen,color_dark,[1410,height/2 +250 ,130,80]) 
+                pygame.draw.rect(screen,color_dark,[1310,height/2 +250 ,450,80]) 
 
 
             # superimposing the text onto our button 
             screen.blit(vectorace,(width/2-250, 50))
-            screen.blit(select, (width/2-380,height/2 - 400))
             screen.blit(quit , (width-230,height-140))
 
-            screen.blit(aestrela , (230,height/2 +270))
-            screen.blit(greedy , (630,height/2 +270))
-            screen.blit(bfs , (1030,height/2 +270))
-            screen.blit(dfs , (1430,height/2 +270))
+            screen.blit(grafo , (230,height/2 +270))
+            screen.blit(algoritmo , (1330,height/2 +270))
 
             screen.blit(circuito, (width/2-280,height/2-250))
 

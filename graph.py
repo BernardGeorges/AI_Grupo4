@@ -181,7 +181,7 @@ class graph:
             filhos = []
             for vel in ac:
                 x,y = inicio[0] + vel[0], inicio[1] + vel[1]
-                if x*factor[0] <= fim[0]*factor[0] and y*factor[1] <= fim[1]*factor[1]:
+                if x*factor[0] <= fim[0]*factor[0] and y*factor[1] <= fim[1]*factor[1] and self.estadoPossivel((x,y)):
                     filhos.append(((x,y),self.calcBestHeuristica([((x,y),(0,0))],[fim],False)))
             filhos.sort(key = lambda a: a[1])
             result = False
