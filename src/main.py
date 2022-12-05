@@ -14,6 +14,8 @@ import circuitos
 def main():
 
     pygame.init()
+    pygame.mixer.music.load("./music/bandolero.mp3")
+    pygame.mixer.music.play()
     #m = get_monitors()
     #print(str(m))
     #for m in get_monitors:
