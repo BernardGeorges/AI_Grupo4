@@ -8,7 +8,6 @@ import inputbox
 from graph import graph
 import time
 import funcaux
-from screeninfo import get_monitors
 import circuitos
 
 def main():
@@ -17,13 +16,6 @@ def main():
     infores =pygame.display.Info()
     pygame.mixer.music.load("./music/bandolero.mp3")
     pygame.mixer.music.play()
-    #m = get_monitors()
-    #print(str(m))
-    #for m in get_monitors:
-    #    s = str(m).split()
-    #    if s[7]==True:
-    #width=s[2]
-    #heigth=s[3]
     mw= (infores.current_w / 1920)
     mh = (infores.current_h /1080)
     width = 1920* mw
