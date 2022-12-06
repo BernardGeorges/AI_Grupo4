@@ -49,9 +49,12 @@ def main():
     darkerer_theme = (37,37,38)
     darkest_theme = (30,30,30)
 
-    smallfont = pygame.font.SysFont('Arial',40) 
-    smallerfont = pygame.font.SysFont('Arial',25) 
-    bigfont= pygame.font.SysFont('Arial',80) 
+    #Tentar fazer com 70
+    smallfont = pygame.font.SysFont('Arial',int(40*mw*mh))
+    #Tentar fazer com 50
+    smallerfont = pygame.font.SysFont('Arial',int(25*mw*mh)) 
+    #Tentar fazer com 120
+    bigfont= pygame.font.SysFont('Arial',int(80*mw*mh)) 
     quit = smallfont.render('Sair' , True , white)
     select= smallfont.render('Por favor selecione o circuito que deseja utilizar', True, white)
     circuito1 = smallfont.render('Circuito 1', True, white)
@@ -151,8 +154,8 @@ def main():
 
 
             #Circuito opcional light shade
-            if 218*mw <= mouse[0] <= 578*mw and height-140*mh <= mouse[1] <= height-100*mh: 
-                pygame.draw.rect(screen,color_light,[218*mw,height-145*mh,328*mw,48*mh])
+            if 215*mw <= mouse[0] <= 580*mw and height-140*mh <= mouse[1] <= height-100*mh: 
+                pygame.draw.rect(screen,color_light,[215*mw,height-145*mh,330*mw,48*mh])
             #Circuito opcional darker shade
             else:
                 pygame.draw.rect(screen,color_dark,[218*mw,height-145*mh,328*mw,48*mh]) 

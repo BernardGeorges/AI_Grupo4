@@ -27,9 +27,9 @@ dark_theme = (62,62,66)
 darker_theme = (45,45,48)
 darkerer_theme = (37,37,38)
 darkest_theme = (30,30,30)
-smallfont = pygame.font.SysFont('Arial',40) 
-smallerfont = pygame.font.SysFont('Arial',25) 
-bigfont= pygame.font.SysFont('Arial',80) 
+smallfont = pygame.font.SysFont('Arial',int(40*mw*mh))
+smallerfont = pygame.font.SysFont('Arial',int(25*mw*mh)) 
+bigfont= pygame.font.SysFont('Arial',int(80*mw*mh)) 
 quit = smallfont.render('Sair' , True , white)
 select= smallfont.render('Por favor selecione o algoritmo que deseja utilizar', True, white)
 aestrela = smallfont.render('A-Estrela', True, white)
@@ -48,10 +48,10 @@ def interagircircuito(screen,g:graph , y, b,partida,fim):
     #janela = pygame.display.set_mode((40*30, 15 * 30))
     #circuito = pygame.display.set_mode((40*len(b), 15 * len(b[0])))
     #circuito = pygame.Surface((width/2-280,height/2 - 400))
-    circuito = pygame.Surface((600,400))
+    circuito = pygame.Surface((600*mw,400*mh))
 
 
-    g.plot(circuito,600,400)
+    g.plot(circuito,600*mw,400*mh)
     flag=True
     while flag:
         for ev in pygame.event.get(): 
