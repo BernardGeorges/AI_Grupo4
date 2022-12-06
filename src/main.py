@@ -14,6 +14,7 @@ import circuitos
 def main():
 
     pygame.init()
+    infores =pygame.display.Info()
     pygame.mixer.music.load("./music/bandolero.mp3")
     pygame.mixer.music.play()
     #m = get_monitors()
@@ -23,8 +24,8 @@ def main():
     #    if s[7]==True:
     #width=s[2]
     #heigth=s[3]
-    width = 1920
-    height = 1080
+    width = 1920* (infores.current_w / 1920)
+    height = 1080* (infores.current_h /1080)
     res=(width,height)
     # opens up a window 
     screen = pygame.display.set_mode(res) 
@@ -57,6 +58,9 @@ def main():
     circuito3 = smallfont.render('Circuito 3', True, white)
     circuito4 = smallfont.render('Circuito 4', True, white)
     circuitoopcional = smallfont.render('Adicionar circuito', True, white)
+    inputbox1= inputbox.InputBox(100,300,430,height-140, "maps/circuito1.txt")
+    inputbox1.draw(screen)
+    defaultinput = "maps/circuito1.txt"
     vectorace = bigfont.render('VECTOR RACE', True, red)
     DISPLAYSURF = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
@@ -77,9 +81,17 @@ def main():
                     flag = False
                     screen=pygame.quit()
                     break
+                #InputBox Adicionar circuito
+                if 418 <= mouse[0] <= 578 and height-140 <= mouse[1] <= height-100: 
+                    inputbox1.handle_event(ev)
                 #Adicionar circuito
                 if 218 <= mouse[0] <= 578 and height-140 <= mouse[1] <= height-100: 
-                    circuitoop = inputbox.screen()
+                    g, y, b,partida,fim = circuitos.loadcircuit(defaultinput)
+                    screen.fill(dark_theme)
+                    pygame.display.update()
+                    funcaux.interagircircuito(screen, g, y , b,partida,fim)
+                    break
+                    
                 #Circuito 1
                 if 210 <= mouse[0] <= 420 and height/2-20 <= mouse[1] <= height/2+95: 
                     g, y, b,partida,fim = circuitos.loadcircuit("maps/circuito1.txt")
@@ -111,7 +123,11 @@ def main():
                     pygame.display.update()
                     funcaux.interagircircuito(screen, g, y , b,partida,fim)
                     break
-                
+            if ev.type ==pygame.KEYDOWN:
+                inputbox1.handle_event(ev)
+                inputbox1.update()
+
+                defaultinput=inputbox1.text
 
         if flag:                
             # fills the screen with a color 

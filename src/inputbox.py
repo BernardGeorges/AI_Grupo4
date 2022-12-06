@@ -3,8 +3,8 @@ import pygame as pg
 
 pg.init()
 screen = pg.display.set_mode((1920, 1080))
-COLOR_INACTIVE = pg.Color((62,62,66))
-COLOR_ACTIVE = pg.Color((170,170,170))
+COLOR_INACTIVE = pg.Color((255,255,255))
+COLOR_ACTIVE = pg.Color((255,255,255))
 FONT = pg.font.Font(None, 32)
 
 
