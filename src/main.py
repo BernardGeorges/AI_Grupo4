@@ -183,7 +183,7 @@ def main():
 
             #Circuito4 light shade
             if 1410*mw <= mouse[0] <= 1620*mw and height/2-20*mh <= mouse[1] <= height/2+60*mh: 
-                pygame.draw.rect(screen,color_light,[1410,height/2 - 20 ,210,80]) 
+                pygame.draw.rect(screen,color_light,[1410*mw,height/2 - 20*mh,210*mw,80*mh]) 
             #Circuito4 darker shade    
             else: 
                 pygame.draw.rect(screen,color_dark,[1410*mw,height/2 - 20*mh ,210*mw,80*mh]) 
