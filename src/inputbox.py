@@ -2,7 +2,12 @@ import pygame as pg
 
 
 pg.init()
-screen = pg.display.set_mode((1920, 1080))
+infores =pg.display.Info()
+mw= (infores.current_w / 1920)
+mh = (infores.current_h /1080)
+width = 1920* mw
+height = 1080* mh
+screen = pg.display.set_mode((width, height))
 COLOR_INACTIVE = pg.Color((255,255,255))
 COLOR_ACTIVE = pg.Color((255,255,255))
 FONT = pg.font.Font(None, 32)
