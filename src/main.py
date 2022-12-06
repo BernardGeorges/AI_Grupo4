@@ -24,8 +24,10 @@ def main():
     #    if s[7]==True:
     #width=s[2]
     #heigth=s[3]
-    width = 1920* (infores.current_w / 1920)
-    height = 1080* (infores.current_h /1080)
+    mw= (infores.current_w / 1920)
+    mh = (infores.current_h /1080)
+    width = 1920* mw
+    height = 1080* mh
     res=(width,height)
     # opens up a window 
     screen = pygame.display.set_mode(res) 
@@ -58,7 +60,7 @@ def main():
     circuito3 = smallfont.render('Circuito 3', True, white)
     circuito4 = smallfont.render('Circuito 4', True, white)
     circuitoopcional = smallfont.render('Adicionar circuito', True, white)
-    inputbox1= inputbox.InputBox(100,300,430,height-140, "maps/circuito1.txt")
+    inputbox1= inputbox.InputBox(100,300,430*mw,height-140*mh, "maps/circuito1.txt")
     inputbox1.draw(screen)
     defaultinput = "maps/circuito1.txt"
     vectorace = bigfont.render('VECTOR RACE', True, red)
@@ -77,15 +79,15 @@ def main():
 
                 #if the mouse is clicked on the 
                 # button the game is terminated 
-                if  width-240 <= mouse[0] <= width-100 and height-140 <= mouse[1] <= height-100: 
+                if  width-240*mw <= mouse[0] <= width-100*mw and height-140*mh <= mouse[1] <= height-100*mh: 
                     flag = False
                     screen=pygame.quit()
                     break
                 #InputBox Adicionar circuito
-                if 418 <= mouse[0] <= 578 and height-140 <= mouse[1] <= height-100: 
+                if 418*mw <= mouse[0] <= 578*mw and height-140*mh <= mouse[1] <= height-100*mh: 
                     inputbox1.handle_event(ev)
                 #Adicionar circuito
-                if 218 <= mouse[0] <= 578 and height-140 <= mouse[1] <= height-100: 
+                if 218*mw <= mouse[0] <= 578*mw and height-140*mh <= mouse[1] <= height-100*mh: 
                     g, y, b,partida,fim = circuitos.loadcircuit(defaultinput)
                     screen.fill(dark_theme)
                     pygame.display.update()
@@ -93,7 +95,7 @@ def main():
                     break
                     
                 #Circuito 1
-                if 210 <= mouse[0] <= 420 and height/2-20 <= mouse[1] <= height/2+95: 
+                if 210*mw <= mouse[0] <= 420 *mw and height/2-20*mh <= mouse[1] <= height/2+95*mh: 
                     g, y, b,partida,fim = circuitos.loadcircuit("maps/circuito1.txt")
                     screen.fill(dark_theme)
                     pygame.display.update()
@@ -101,7 +103,7 @@ def main():
                     break
                 
                 #Circuito 2
-                if 610 <= mouse[0] <= 820 and height/2-20 <= mouse[1] <= height/2+60: 
+                if 610*mw <= mouse[0] <= 820*mw and height/2-20*mh <= mouse[1] <= height/2+60*mh: 
                     g, y, b,partida,fim = circuitos.loadcircuit("maps/circuito2.txt")
                     screen.fill(dark_theme)
                     pygame.display.update()
@@ -109,7 +111,7 @@ def main():
                     break
 
                 #Circuito 3
-                if 1010 <= mouse[0] <= 1220 and height/2-20 <= mouse[1] <= height/2+60: 
+                if 1010*mw <= mouse[0] <= 1220*mw and height/2-20*mh<= mouse[1] <= height/2+60*mh: 
                     g, y, b,partida,fim = circuitos.loadcircuit("maps/circuito3.txt")
                     screen.fill(dark_theme)
                     pygame.display.update()
@@ -117,7 +119,7 @@ def main():
                     break
 
                 #Circuito 4
-                if 1410 <= mouse[0] <= 1620 and height/2-20 <= mouse[1] <= height/2+60: 
+                if 1410*mw <= mouse[0] <= 1620*mw and height/2-20*mh <= mouse[1] <= height/2+60*mh: 
                     g, y, b,partida,fim = circuitos.loadcircuit("maps/circuito4.txt")
                     screen.fill(dark_theme)
                     pygame.display.update()
@@ -141,64 +143,64 @@ def main():
             # changes to lighter shade 
 
             #Sair light shade
-            if width-240 <= mouse[0] <= width-95 and height-145 <= mouse[1] <= height-97: 
-                pygame.draw.rect(screen,color_light,[width-240,height-145,95,48])
+            if width-240*mw <= mouse[0] <= width-95*mw and height-145*mh <= mouse[1] <= height-97*mh: 
+                pygame.draw.rect(screen,color_light,[width-240*mw,height-145*mh,95*mw,48*mh])
             #Sair darker shade
             else:
-                pygame.draw.rect(screen,color_dark,[width-240,height-145,95,48]) 
+                pygame.draw.rect(screen,color_dark,[width-240*mw,height-145*mh,95*mw,48*mh]) 
 
 
             #Circuito opcional light shade
-            if 218 <= mouse[0] <= 578 and height-140 <= mouse[1] <= height-100: 
-                pygame.draw.rect(screen,color_light,[218,height-145,328,48])
+            if 218*mw <= mouse[0] <= 578*mw and height-140*mh <= mouse[1] <= height-100*mh: 
+                pygame.draw.rect(screen,color_light,[218*mw,height-145*mh,328*mw,48*mh])
             #Circuito opcional darker shade
             else:
-                pygame.draw.rect(screen,color_dark,[218,height-145,328,48]) 
+                pygame.draw.rect(screen,color_dark,[218*mw,height-145*mh,328*mw,48*mh]) 
 
 
             #Circuito1 light shade
-            if 210 <= mouse[0] <= 420 and height/2-20 <= mouse[1] <= height/2+95: 
-                pygame.draw.rect(screen,color_light,[210,height/2 - 20 ,210,115]) 
+            if 210*mw <= mouse[0] <= 420*mw and height/2-20*mh <= mouse[1] <= height/2+95*mh: 
+                pygame.draw.rect(screen,color_light,[210*mw,height/2 - 20*mh ,210*mw,115*mh]) 
             #Circuito1 darker shade    
             else: 
-                pygame.draw.rect(screen,color_dark,[210,height/2 - 20 ,210,115]) 
+                pygame.draw.rect(screen,color_dark,[210*mw,height/2 - 20*mh ,210*mw,115*mh]) 
 
             #Circuito2 light shade
-            if 610 <= mouse[0] <= 820 and height/2-20 <= mouse[1] <= height/2+60: 
-                pygame.draw.rect(screen,color_light,[610,height/2 - 20 ,210,80]) 
+            if 610*mw <= mouse[0] <= 820*mw and height/2-20*mh <= mouse[1] <= height/2+60*mh: 
+                pygame.draw.rect(screen,color_light,[610*mw,height/2 - 20*mh ,210*mw,80*mh]) 
             #Circuito2 darker shade    
             else: 
-                pygame.draw.rect(screen,color_dark,[610,height/2 - 20 ,210,80]) 
+                pygame.draw.rect(screen,color_dark,[610*mw,height/2 - 20*mh ,210*mw,80*mh]) 
 
 
             #Circuito3 light shade
-            if 1010 <= mouse[0] <= 1220 and height/2-20 <= mouse[1] <= height/2+60: 
-                pygame.draw.rect(screen,color_light,[1010,height/2 - 20 ,210,80]) 
+            if 1010*mw <= mouse[0] <= 1220*mw and height/2-20*mh <= mouse[1] <= height/2+60*mh: 
+                pygame.draw.rect(screen,color_light,[1010*mw,height/2 - 20*mh ,210*mw,80*mh]) 
             #Circuito3 darker shade    
             else: 
-                pygame.draw.rect(screen,color_dark,[1010,height/2 - 20 ,210,80]) 
+                pygame.draw.rect(screen,color_dark,[1010*mw,height/2 - 20*mh ,210*mw,80*mh]) 
 
 
             #Circuito4 light shade
-            if 1410 <= mouse[0] <= 1620 and height/2-20 <= mouse[1] <= height/2+60: 
+            if 1410*mw <= mouse[0] <= 1620*mw and height/2-20*mh <= mouse[1] <= height/2+60*mh: 
                 pygame.draw.rect(screen,color_light,[1410,height/2 - 20 ,210,80]) 
             #Circuito4 darker shade    
             else: 
-                pygame.draw.rect(screen,color_dark,[1410,height/2 - 20 ,210,80]) 
+                pygame.draw.rect(screen,color_dark,[1410*mw,height/2 - 20*mh ,210*mw,80*mh]) 
 
 
             # superimposing the text onto our button 
-            screen.blit(vectorace,(width/2-250, 50))
-            screen.blit(select, (width/2-380,height/2 - 240))
-            screen.blit(quit , (width-230,height-140))
-            screen.blit(circuitoopcional,(230,height-140))
+            screen.blit(vectorace,(width/2-250*mw, 50*mh))
+            screen.blit(select, (width/2-380*mw,height/2 - 240*mh))
+            screen.blit(quit , (width-230*mw,height-140*mh))
+            screen.blit(circuitoopcional,(230*mw,height-140*mh))
 
-            screen.blit(circuito1 , (230,height/2))
-            screen.blit(enunciado , (230,height/2+50))
+            screen.blit(circuito1 , (230*mw,height/2))
+            screen.blit(enunciado , (230*mw,height/2+50*mh))
 
-            screen.blit(circuito2 , (630,height/2))
-            screen.blit(circuito3 , (1030,height/2))
-            screen.blit(circuito4 , (1430,height/2))
+            screen.blit(circuito2 , (630*mw,height/2))
+            screen.blit(circuito3 , (1030*mw,height/2))
+            screen.blit(circuito4 , (1430*mw,height/2))
 
 
 
