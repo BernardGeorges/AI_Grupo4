@@ -7,7 +7,7 @@ import inputbox
 #Importar classe graph
 from graph import graph
 import time
-import aux
+import funcaux
 from screeninfo import get_monitors
 import circuitos
 
@@ -84,26 +84,26 @@ def main():
                     g, y, b,partida,fim = circuitos.loadcircuit("maps/circuito1.txt")
                     screen.fill(dark_theme)
                     pygame.display.update()
-                    aux.interagircircuito(screen, g, y , b,partida,fim)
+                    funcaux.interagircircuito(screen, g, y , b,partida,fim)
                     break
 
                 if 610 <= mouse[0] <= 820 and height/2-20 <= mouse[1] <= height/2+60: 
                     g, y, b,partida,fim = circuitos.loadcircuit("maps/circuito2.txt")
                     screen.fill(dark_theme)
                     pygame.display.update()
-                    aux.interagircircuito(screen, g, y , b,partida,fim)
+                    funcaux.interagircircuito(screen, g, y , b,partida,fim)
                     break
                 if 1010 <= mouse[0] <= 1220 and height/2-20 <= mouse[1] <= height/2+60: 
                     g, y, b,partida,fim = circuitos.loadcircuit("maps/circuito3.txt")
                     screen.fill(dark_theme)
                     pygame.display.update()
-                    aux.interagircircuito(screen, g, y , b,partida,fim)
+                    funcaux.interagircircuito(screen, g, y , b,partida,fim)
                     break
                 if 1410 <= mouse[0] <= 1620 and height/2-20 <= mouse[1] <= height/2+60: 
                     g, y, b,partida,fim = circuitos.loadcircuit(".maps/circuito4.txt")
                     screen.fill(dark_theme)
                     pygame.display.update()
-                    aux.interagircircuito(screen, g, y , b,partida,fim)
+                    funcaux.interagircircuito(screen, g, y , b,partida,fim)
                     break
                 
 
