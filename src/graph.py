@@ -19,8 +19,9 @@ class graph:
     # Y se encontra no pos[1]
     Y = 1
     
-    def __init__(self,partida,matriz):
+    def __init__(self,partida,matriz,fim):
         self.matrix = matriz
+        self.end = fim
         self.ac = [(-1,-1),(-1,0),(-1,1),(0,-1),(0,0),(0,1),(1,-1),(1,0),(1,1)]
         self.grafo = self.criaGrafo(partida,(0,0))
         pygame.init()
@@ -96,13 +97,12 @@ class graph:
                 for aceleracao in self.ac:
                     nextPos,nextVel = self.calcNextPos(posicao,velocidade,aceleracao),self.calcVel(velocidade,aceleracao)
                     if ((nextPos,nextVel) not in grafo.keys() or first) and self.estadoPossivel(nextPos) and self.passagemPossivel(posicao,nextPos,True):
-                        grafo[(posicao,velocidade)].add(((nextPos,nextVel),self.calcBestHeuristica([(posicao,velocidade)],[nextPos],False)))
+                        grafo[(posicao,velocidade)].add(((nextPos,nextVel),self.calcBestHeuristica([(posicao,velocidade)],self.end,False)))
                         porVisitar.append((nextPos,nextVel))
-                    else:
-                        grafo[(posicao,velocidade)].add(((nextPos,nextVel),25*self.calcBestHeuristica([(posicao,velocidade)],[nextPos],False)))
-                        if (nextPos, nextVel) not in grafo.keys():
-                            grafo[(nextPos, nextVel)] = set()
-                            grafo[(nextPos, nextVel)].add(((posicao,velocidade),25))
+                    elif (nextPos,nextVel) not in grafo.keys():
+                        grafo[(posicao,velocidade)].add(((nextPos,nextVel),25*self.calcBestHeuristica([(posicao,velocidade)],self.end,False)))
+                        grafo[(nextPos, nextVel)] = set()
+                        grafo[(nextPos, nextVel)].add(((posicao,velocidade),250))
                 first = False
         return grafo
 

@@ -47,13 +47,16 @@ class algoritmos:
             return path
         for (adjacente, peso) in self.grafo[ponto]:
              if adjacente not in visited:
-                 best_nodes.append((adjacente, self.graph.calcBestHeuristica([ponto],self.end,False)))
+                 best_nodes.append((adjacente, peso))
         best_nodes.sort(key = lambda a: a[1])
         resultado = None
         while resultado is None and len(best_nodes) > 0:
            best_node = best_nodes.pop(0)
            if self.graph.estadoPossivel(best_node[0][0]):
+                oldPath = path.copy()
                 resultado = self.Greedy(best_node[0],path,visited)
+                path = oldPath
+                path
         return resultado
 
     def DFS(self):
@@ -69,7 +72,7 @@ class algoritmos:
             else:
                 for (adjacente, peso) in self.grafo[nodo_atual[0]]:
                     if adjacente not in visited:
-                        stack.append((adjacente, nodo_atual[1] + [adjacente], nodo_atual[2] + peso))
+                        stack.append((adjacente, nodo_atual[1].append(adjacente), nodo_atual[2] + peso))
                         visited.add(adjacente)
 
     def BFS(self):

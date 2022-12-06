@@ -17,5 +17,5 @@ def loadcircuit(circuito):
                     fim.append((x,y))
                 x += 1
         y += 1
-    g = graph.graph(partida[0],b)
+    g = graph.graph(partida[0],b,fim)
     return g, b, y,partida,fim
