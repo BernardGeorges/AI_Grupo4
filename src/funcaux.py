@@ -67,6 +67,7 @@ def interagircircuito(screen,g:graph , y, b,partida,fim):
                     flag = False
                     screen=pygame.quit()
                     break
+                #Voltar
                 if 218 <= mouse[0] <= 578 and height-140 <= mouse[1] <= height-100: 
                     flag=False
                     break
@@ -76,6 +77,8 @@ def interagircircuito(screen,g:graph , y, b,partida,fim):
                     screen.fill(dark_theme)
                     pygame.display.update()
                     interagealg(screen,1,g,y,b,partida,fim)
+                    flag = False
+                    break
 
                     
                 #Greedy
@@ -83,6 +86,8 @@ def interagircircuito(screen,g:graph , y, b,partida,fim):
                     screen.fill(dark_theme)
                     pygame.display.update()
                     interagealg(screen,2,g,y,b,partida,fim)
+                    flag = False
+                    break
 
 
                 #BFS
@@ -90,6 +95,8 @@ def interagircircuito(screen,g:graph , y, b,partida,fim):
                     screen.fill(dark_theme)
                     pygame.display.update()
                     interagealg(screen,3,g,y,b,partida,fim)
+                    flag = False
+                    break
 
 
                 #DFS
@@ -97,6 +104,8 @@ def interagircircuito(screen,g:graph , y, b,partida,fim):
                     screen.fill(dark_theme)
                     pygame.display.update()
                     interagealg(screen,4,g,y,b,partida,fim)
+                    flag = False
+                    break
 
 
                 
@@ -199,7 +208,7 @@ def interagealg(screen,alg,g:graph.graph, y, b, partida,fim):
         for ev in pygame.event.get(): 
             
             if ev.type == pygame.QUIT: 
-                screen=pygame.quit()
+                pygame.quit()
             
             #checks if a mouse is clicked
             if ev.type == pygame.MOUSEBUTTONDOWN: 
@@ -207,17 +216,15 @@ def interagealg(screen,alg,g:graph.graph, y, b, partida,fim):
                 #if the mouse is clicked on the 
                 # button the game is terminated 
                 if  width-240 <= mouse[0] <= width-100 and height-140 <= mouse[1] <= height-100: 
-                    flag = False
-                    pygame.quit()
                     flag=False
+                    pygame.quit()
                     break
-                if 218 <= mouse[0] <= 578 and height-140 <= mouse[1] <= height-100: 
-                    circuitoop = inputbox.screen()
 
                 #Mostrar Grafo
                 if 350 <= mouse[0] <= 560 and height/2 +250 <= mouse[1] <= height/2+330: 
                     g.desenha()
                     pygame.display.update()
+                    
 
                 #Usar outro algoritmo
                 if 1310 <= mouse[0] <= 1760 and height/2+250 <= mouse[1] <= height/2+330: 
