@@ -10,3 +10,7 @@ teste.py
 src/__pycache__/graph.cpython-310.pyc
 .idea/workspace.xml
 src/__pycache__/algoritmos.cpython-310.pyc
+.idea/workspace.xml
+src/__pycache__/circuitos.cpython-310.pyc
+src/__pycache__/funcaux.cpython-310.pyc
+src/__pycache__/inputbox.cpython-310.pyc
