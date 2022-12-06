@@ -56,7 +56,6 @@ class algoritmos:
                 oldPath = path.copy()
                 resultado = self.Greedy(best_node[0],path,visited)
                 path = oldPath
-                path
         return resultado
 
     def DFS(self):
@@ -71,8 +70,10 @@ class algoritmos:
                 return nodo_atual[1]
             else:
                 for (adjacente, peso) in self.grafo[nodo_atual[0]]:
+                    nodo_atual_path = nodo_atual[1].copy()
                     if adjacente not in visited:
-                        stack.append((adjacente, nodo_atual[1].append(adjacente), nodo_atual[2] + peso))
+                        nodo_atual_path.append(adjacente)
+                        stack.append((adjacente, nodo_atual_path, nodo_atual[2] + peso))
                         visited.add(adjacente)
 
     def BFS(self):
