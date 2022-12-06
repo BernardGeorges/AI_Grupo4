@@ -191,17 +191,14 @@ def interagircircuito(screen,g:graph , y, b,partida,fim):
 def interagealg(screen,alg,g:graph.graph, y, b, partida,fim):
     algs = algoritmos(g,partida[0],fim)
     circuito = pygame.Surface((600*mw,400*mh))
-    match alg:
-        case 1:
-            path = algs.AEstrela()
-        case 2:
-            path = algs.Greedy()
-        case 3:
-            path = algs.BFS()
-        case 4:
-            path = algs.DFS()
-        case _:
-            print("ERRO")
+    if alg == 1:
+        path = algs.AEstrela()
+    if alg == 2:
+        path = algs.Greedy()
+    if alg == 3:
+        path = algs.BFS()
+    if alg == 4:
+        path = algs.DFS()
 
     g.plotpath(circuito,path,600*mw,400*mh)
     flag=True
