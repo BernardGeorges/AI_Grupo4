@@ -77,30 +77,36 @@ def main():
                     flag = False
                     screen=pygame.quit()
                     break
-
+                #Adicionar circuito
                 if 218 <= mouse[0] <= 578 and height-140 <= mouse[1] <= height-100: 
                     circuitoop = inputbox.screen()
+                #Circuito 1
                 if 210 <= mouse[0] <= 420 and height/2-20 <= mouse[1] <= height/2+95: 
                     g, y, b,partida,fim = circuitos.loadcircuit("maps/circuito1.txt")
                     screen.fill(dark_theme)
                     pygame.display.update()
                     funcaux.interagircircuito(screen, g, y , b,partida,fim)
                     break
-
+                
+                #Circuito 2
                 if 610 <= mouse[0] <= 820 and height/2-20 <= mouse[1] <= height/2+60: 
                     g, y, b,partida,fim = circuitos.loadcircuit("maps/circuito2.txt")
                     screen.fill(dark_theme)
                     pygame.display.update()
                     funcaux.interagircircuito(screen, g, y , b,partida,fim)
                     break
+
+                #Circuito 3
                 if 1010 <= mouse[0] <= 1220 and height/2-20 <= mouse[1] <= height/2+60: 
                     g, y, b,partida,fim = circuitos.loadcircuit("maps/circuito3.txt")
                     screen.fill(dark_theme)
                     pygame.display.update()
                     funcaux.interagircircuito(screen, g, y , b,partida,fim)
                     break
+
+                #Circuito 4
                 if 1410 <= mouse[0] <= 1620 and height/2-20 <= mouse[1] <= height/2+60: 
-                    g, y, b,partida,fim = circuitos.loadcircuit(".maps/circuito4.txt")
+                    g, y, b,partida,fim = circuitos.loadcircuit("maps/circuito4.txt")
                     screen.fill(dark_theme)
                     pygame.display.update()
                     funcaux.interagircircuito(screen, g, y , b,partida,fim)
