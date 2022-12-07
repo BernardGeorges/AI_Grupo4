@@ -39,6 +39,7 @@ class algoritmos:
 
     def Greedy(self,ponto = None,path=[],visited=set()):
         if ponto == None:
+            visited = set()
             ponto = (self.start,(0,0))
         path.append(ponto)
         visited.add(ponto)
