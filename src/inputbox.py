@@ -8,9 +8,9 @@ mh = (infores.current_h /1080)
 width = 1920* mw
 height = 1080* mh
 screen = pg.display.set_mode((width, height))
-COLOR_INACTIVE = pg.Color((255,255,255))
+COLOR_INACTIVE = pg.Color((178,178,178))
 COLOR_ACTIVE = pg.Color((255,255,255))
-FONT = pg.font.Font(None, 32)
+FONT = pg.font.Font(None, 40)
 
 
 class InputBox:
@@ -21,22 +21,20 @@ class InputBox:
         self.text = text
         self.txt_surface = FONT.render(text, True, self.color)
         self.active = False
+        self.first = True
 
     def handle_event(self, event):
         if event.type == pg.MOUSEBUTTONDOWN:
-            # If the user clicked on the input_box rect.
-            if self.rect.collidepoint(event.pos):
-                # Toggle the active variable.
-                self.active = not self.active
-            else:
-                self.active = False
-            # Change the current color of the input box.
-            self.color = COLOR_ACTIVE if self.active else COLOR_INACTIVE
+            self.active=True
+            self.color = COLOR_ACTIVE
+            if self.first:
+                self.text= ''
+                self.first=False
+            self.txt_surface = FONT.render(self.text, True, self.color)
         if event.type == pg.KEYDOWN:
             if self.active:
                 if event.key == pg.K_RETURN:
-                    print(self.text)
-                    self.text = ''
+                    pass
                 elif event.key == pg.K_BACKSPACE:
                     self.text = self.text[:-1]
                 else:
@@ -54,3 +52,7 @@ class InputBox:
         screen.blit(self.txt_surface, (self.rect.x+5, self.rect.y+5))
         # Blit the rect.
         pg.draw.rect(screen, self.color, self.rect, 2)
+    def deactivate(self):
+        self.active = False
+        self.color=COLOR_INACTIVE
+        self.txt_surface = FONT.render(self.text, True, self.color)

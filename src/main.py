@@ -55,8 +55,7 @@ def main():
     circuito3 = smallfont.render('Circuito 3', True, white)
     circuito4 = smallfont.render('Circuito 4', True, white)
     circuitoopcional = smallfont.render('Adicionar circuito', True, white)
-    inputbox1= inputbox.InputBox(100,300,430*mw,height-140*mh, "maps/circuito1.txt")
-    inputbox1.draw(screen)
+    inputbox1= inputbox.InputBox(580*mw,height-145*mh,300,45, "maps/circuito1.txt")
     defaultinput = "maps/circuito1.txt"
     vectorace = bigfont.render('VECTOR RACE', True, red)
     DISPLAYSURF = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -71,16 +70,18 @@ def main():
 
             #checks if a mouse is clicked
             if ev.type == pygame.MOUSEBUTTONDOWN: 
-
+                #InputBox Adicionar circuito
+                if 580*mw <= mouse[0] <= 880*mw and height-145*mh <= mouse[1] <= height-100*mh: 
+                    inputbox1.handle_event(ev)
+                else:
+                    inputbox1.deactivate()
                 #if the mouse is clicked on the 
                 # button the game is terminated 
                 if  width-240*mw <= mouse[0] <= width-100*mw and height-140*mh <= mouse[1] <= height-100*mh: 
                     flag = False
                     screen=pygame.quit()
                     break
-                #InputBox Adicionar circuito
-                if 418*mw <= mouse[0] <= 578*mw and height-140*mh <= mouse[1] <= height-100*mh: 
-                    inputbox1.handle_event(ev)
+                
                 #Adicionar circuito
                 if 218*mw <= mouse[0] <= 578*mw and height-140*mh <= mouse[1] <= height-100*mh: 
                     g, y, b,partida,fim = circuitos.loadcircuit(defaultinput)
@@ -121,10 +122,20 @@ def main():
                     funcaux.interagircircuito(screen, g, y , b,partida,fim)
                     break
             if ev.type ==pygame.KEYDOWN:
-                inputbox1.handle_event(ev)
-                inputbox1.update()
+                if inputbox1.active:
+                    inputbox1.handle_event(ev)
+                    inputbox1.update()
 
                 defaultinput=inputbox1.text
+                if ev.key == pygame.K_RETURN:
+                    inputbox1.deactivate()
+
+                    g, y, b,partida,fim = circuitos.loadcircuit(defaultinput)
+                    screen.fill(dark_theme)
+                    pygame.display.update()
+                    funcaux.interagircircuito(screen, g, y , b,partida,fim)
+                    break
+
 
         if flag:                
             # fills the screen with a color 
@@ -188,7 +199,9 @@ def main():
             screen.blit(vectorace,(width/2-250*mw, 50*mh))
             screen.blit(select, (width/2-380*mw,height/2 - 240*mh))
             screen.blit(quit , (width-230*mw,height-140*mh))
+
             screen.blit(circuitoopcional,(230*mw,height-140*mh))
+            inputbox1.draw(screen)
 
             screen.blit(circuito1 , (230*mw,height/2))
             screen.blit(enunciado , (230*mw,height/2+50*mh))
@@ -196,9 +209,6 @@ def main():
             screen.blit(circuito2 , (630*mw,height/2))
             screen.blit(circuito3 , (1030*mw,height/2))
             screen.blit(circuito4 , (1430*mw,height/2))
-
-
-
 
             # updates the frames of the game 
             pygame.display.update() 
