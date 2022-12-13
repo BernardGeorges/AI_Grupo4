@@ -77,8 +77,7 @@ def main():
                     inputbox1.deactivate()
                 # if the mouse is clicked on the
                 # button the game is terminated
-                if width - 240 * mw <= mouse[0] <= width - 100 * mw and height - 140 * mh <= mouse[
-                    1] <= height - 100 * mh:
+                if width - 240 * mw <= mouse[0] <= width - 100 * mw and height - 140 * mh <= mouse[1] <= height - 100 * mh:
                     flag = False
                     screen = pygame.quit()
                     break
@@ -86,41 +85,62 @@ def main():
                 # Adicionar circuito
                 if 218 * mw <= mouse[0] <= 578 * mw and height - 140 * mh <= mouse[1] <= height - 100 * mh:
                     g, y, b, partida, fim = circuitos.loadcircuit(defaultinput)
+                    l = len(partida)
                     screen.fill(dark_theme)
                     pygame.display.update()
-                    funcaux.interagircircuito(screen, g, y, b, partida, fim)
+                    if l == 1:
+                        funcaux.interagircircuito(screen, g, y, b, partida, fim)
+                    else:
+                        funcaux.multiplayercircuito(screen,g, b, y, partida,fim)
                     break
 
                 # Circuito 1
                 if 210 * mw <= mouse[0] <= 420 * mw and height / 2 - 20 * mh <= mouse[1] <= height / 2 + 95 * mh:
                     g, y, b, partida, fim = circuitos.loadcircuit("maps/circuito1.txt")
+                    l = len(partida)
                     screen.fill(dark_theme)
                     pygame.display.update()
-                    funcaux.interagircircuito(screen, g, y, b, partida, fim)
+                    
+                    if l == 1:
+                        funcaux.interagircircuito(screen, g, y, b, partida, fim)
+                    else:
+                        funcaux.multiplayercircuito(screen,g, b, y, partida,fim)
                     break
 
                 # Circuito 2
                 if 610 * mw <= mouse[0] <= 820 * mw and height / 2 - 20 * mh <= mouse[1] <= height / 2 + 60 * mh:
-                    g, y, b, partida, fim = circuitos.loadcircuit("maps/circuito2.txt")
+                    g, y, b, partida, fim = circuitos.loadcircuit("maps/circuitoMultiplayer.txt")
+                    l = len(partida)
                     screen.fill(dark_theme)
                     pygame.display.update()
-                    funcaux.interagircircuito(screen, g, y, b, partida, fim)
+                    if l == 1:
+                        funcaux.interagircircuito(screen, g, y, b, partida, fim)
+                    else:
+                        funcaux.multiplayercircuito(screen,g, b, y, partida,fim)
                     break
 
                 # Circuito 3
                 if 1010 * mw <= mouse[0] <= 1220 * mw and height / 2 - 20 * mh <= mouse[1] <= height / 2 + 60 * mh:
                     g, y, b, partida, fim = circuitos.loadcircuit("maps/circuito3.txt")
+                    l = len(partida)
                     screen.fill(dark_theme)
                     pygame.display.update()
-                    funcaux.interagircircuito(screen, g, y, b, partida, fim)
+                    if l == 1:
+                        funcaux.interagircircuito(screen, g, y, b, partida, fim)
+                    else:
+                        funcaux.multiplayercircuito(screen,g, b, y, partida,fim)
                     break
 
                 # Circuito 4
                 if 1410 * mw <= mouse[0] <= 1620 * mw and height / 2 - 20 * mh <= mouse[1] <= height / 2 + 60 * mh:
                     g, y, b, partida, fim = circuitos.loadcircuit("maps/circuito4.txt")
+                    l = len(partida)
                     screen.fill(dark_theme)
                     pygame.display.update()
-                    funcaux.interagircircuito(screen, g, y, b, partida, fim)
+                    if l == 1:
+                        funcaux.interagircircuito(screen, g, y, b, partida, fim)
+                    else:
+                        funcaux.multiplayercircuito(screen,g, b, y, partida,fim)
                     break
             if ev.type == pygame.KEYDOWN:
                 if inputbox1.active:
@@ -132,9 +152,14 @@ def main():
                     inputbox1.deactivate()
 
                     g, y, b, partida, fim = circuitos.loadcircuit(defaultinput)
+                    l = len(partida)
+
                     screen.fill(dark_theme)
                     pygame.display.update()
-                    funcaux.interagircircuito(screen, g, y, b, partida, fim)
+                    if l == 1:
+                        funcaux.interagircircuito(screen, g, y, b, partida, fim)
+                    else:
+                        funcaux.multiplayercircuito(screen,g, b, y, partida,fim)
                     break
 
         if flag:
