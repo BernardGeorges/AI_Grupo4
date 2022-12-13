@@ -18,7 +18,7 @@ class graph:
     X = 0
     # Y se encontra no pos[1]
     Y = 1
-    
+
     def __init__(self,partida,matriz,fim):
         self.matrix = matriz
         self.end = fim
@@ -52,6 +52,17 @@ class graph:
             y += y1/y2
         pygame.display.update()
         return x, y
+
+    def getAC(self):
+        return self.ac
+
+    def putInMatrix(self,values: str, place: (int,int)):
+        ret = self.matrix[place[1]][place[0]]
+        self.matrix[place[1]][place[0]] = values
+        return ret
+
+    def createSquare(self,x, y, color,janela):
+        pygame.draw.rect(janela, color, [x, y, self.largura, self.altura])
 
     #Faz a representação em VectorRace do circuito
     def plotpath(self,janela,path,x1,y1):

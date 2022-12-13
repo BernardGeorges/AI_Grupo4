@@ -3,11 +3,22 @@ import math
 import queue
 
 class algoritmos:
-    def __init__(self, grafo: g,inicio,fim):
+    def __init__(self, grafo: g,inicio,fim, matriz = None):
         self.end = fim
         self.start = inicio
         self.grafo = grafo.getGrafo()
         self.graph = grafo
+        self.matrix = matriz
+
+    def plotPath(self, path):
+        i = 0
+        for ((x,y), vel) in path:
+            self.matrix[y][x] = str(i)
+            i += 1
+
+    def colisao(self, pos, play: str):
+        if 0 < pos[0] < len(self.matrix[0]) and 0 < pos[1] < len(self.matrix):
+            return self.matrix[pos[1]][pos[0]] != play
 
         # algoritmo de pesquisa A*
     def AEstrela(self):
@@ -32,7 +43,7 @@ class algoritmos:
                     best[2].append(estado)
                     return best[2]
                 # se não e não estiver nos visitados adiciona-o ao nodos ainda por visitar
-                elif estado not in visitados:
+                elif estado not in visitados and self.colisao(estado[0],str(len(pathUntilNow))):
                     pathUntilNow.append(estado)
                     visitados.append(estado)
                     possiveis.append((estado, self.graph.calcBestHeuristica(pathUntilNow, self.end), pathUntilNow))
@@ -52,7 +63,7 @@ class algoritmos:
         resultado = None
         while resultado is None and len(best_nodes) > 0:
            best_node = best_nodes.pop(0)
-           if self.graph.estadoPossivel(best_node[0][0]):
+           if self.graph.estadoPossivel(best_node[0][0]) and self.colisao(best_node[0][0], str(path)):
                 oldPath = path.copy()
                 resultado = self.Greedy(best_node[0],path,visited)
                 path = oldPath
@@ -71,8 +82,8 @@ class algoritmos:
             else:
                 for (adjacente, peso) in self.grafo[nodo_atual[0]]:
                     nodo_atual_path = nodo_atual[1].copy()
-                    if adjacente not in visited:
-                        nodo_atual_path.append(adjacente)
+                    nodo_atual_path.append(adjacente)
+                    if adjacente not in visited and self.colisao(adjacente[0],str(nodo_atual_path)):
                         stack.append((adjacente, nodo_atual_path, nodo_atual[2] + peso))
                         visited.add(adjacente)
 
@@ -89,6 +100,6 @@ class algoritmos:
                 return nodo_atual[1]
             else:
                 for (adjacente, peso) in self.grafo[nodo_atual[0]]:
-                    if adjacente not in visited:
+                    if adjacente not in visited and self.colisao(nodo_atual[0],str(nodo_atual[1])):
                         fila.put((adjacente,nodo_atual[1]+[adjacente],nodo_atual[2]+peso))
                         visited.add(adjacente)
