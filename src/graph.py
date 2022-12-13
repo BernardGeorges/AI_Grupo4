@@ -1,5 +1,6 @@
 # Biblioteca de tratamento de grafos necessária para desenhar graficamente o grafo
 import queue
+import time
 import networkx as nx
 # Biblioteca de tratamento de grafos necessária para desenhar graficamente o grafo
 import matplotlib.pyplot as plt
@@ -31,7 +32,8 @@ class graph:
         return self.grafo
 
     def createSquare(self,x, y, color,janela,x1,y1,x2,y2):
-        pygame.draw.rect(janela, color, [x, y, math.ceil(x1/x2), math.ceil(y1/y2)])
+        r= pygame.draw.rect(janela, color, [x, y, math.ceil(x1/x2), math.ceil(y1/y2)])
+        return r
 
     def plot(self,janela,x1,y1):
         y2=len(self.matrix)
@@ -85,9 +87,31 @@ class graph:
         for (x,y), vel in path:
             plotX = x * x1/x2
             plotY = y * y1/y2
+            #time.sleep(1)
             self.createSquare(plotX, plotY, (0, 0, 255), janela,x1,y1,x2,y2)
+        pygame.display.update()#inutil nao sei pq e que ta aqui
+
+
+    def plotpathreset(self,janela,path,x1,y1):
+        y2=len(self.matrix)
+        x2=len(self.matrix[0])
+        for (x,y), vel in path:
+            plotX = x * x1/x2
+            plotY = y * y1/y2
+            r=self.createSquare(plotX, plotY, (128,128,128), janela,x1,y1,x2,y2)
+            janela.blit(r,plotX,plotY)
         pygame.display.update()
 
+    def plotpathupdate(self,janela,path,x1,y1):
+        y2=len(self.matrix)
+        x2=len(self.matrix[0])
+        for (x,y), vel in path:
+            plotX = x * x1/x2
+            plotY = y * y1/y2
+            time.sleep(1)
+            r= self.createSquare(plotX, plotY, (0, 0, 255), janela,x1,y1,x2,y2)
+            janela.blit(r,x1,y1)
+            
 
     def __str__(self):
         out = " "

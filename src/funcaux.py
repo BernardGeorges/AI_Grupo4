@@ -27,9 +27,9 @@ dark_theme = (62,62,66)
 darker_theme = (45,45,48)
 darkerer_theme = (37,37,38)
 darkest_theme = (30,30,30)
-smallfont = pygame.font.SysFont('Arial',40) 
-smallerfont = pygame.font.SysFont('Arial',25) 
-bigfont= pygame.font.SysFont('Arial',80) 
+smallfont = pygame.font.SysFont('Arial',int(40*mw*mh))
+smallerfont = pygame.font.SysFont('Arial',int(25*mw*mh)) 
+bigfont= pygame.font.SysFont('Arial',int(80*mw*mh)) 
 quit = smallfont.render('Sair' , True , white)
 select= smallfont.render('Por favor selecione o algoritmo que deseja utilizar', True, white)
 aestrela = smallfont.render('A-Estrela', True, white)
@@ -40,6 +40,7 @@ algoritmo= smallfont.render('Escolher outro algoritmo', True, white)
 grafo = smallfont.render('Desenhar o Grafo', True, white)
 voltar = smallfont.render('Voltar', True, white)
 vectorace = bigfont.render('VECTOR RACE', True, red)
+mostrarpath = smallfont.render('Mostrar percurso', True, white)
 DISPLAYSURF = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
 pygame.display.set_caption('VECTOR RACE')
@@ -48,10 +49,10 @@ def interagircircuito(screen,g:graph , y, b,partida,fim):
     #janela = pygame.display.set_mode((40*30, 15 * 30))
     #circuito = pygame.display.set_mode((40*len(b), 15 * len(b[0])))
     #circuito = pygame.Surface((width/2-280,height/2 - 400))
-    circuito = pygame.Surface((600,400))
+    circuito = pygame.Surface((600*mw,400*mh))
 
 
-    g.plot(circuito,600,400)
+    g.plot(circuito,600*mw,400*mh)
     flag=True
     while flag:
         for ev in pygame.event.get(): 
@@ -191,17 +192,14 @@ def interagircircuito(screen,g:graph , y, b,partida,fim):
 def interagealg(screen,alg,g:graph.graph, y, b, partida,fim):
     algs = algoritmos(g,partida[0],fim)
     circuito = pygame.Surface((600*mw,400*mh))
-    match alg:
-        case 1:
-            path = algs.AEstrela()
-        case 2:
-            path = algs.Greedy()
-        case 3:
-            path = algs.BFS()
-        case 4:
-            path = algs.DFS()
-        case _:
-            print("ERRO")
+    if alg == 1:
+        path = algs.AEstrela()
+    if alg == 2:
+        path = algs.Greedy()
+    if alg == 3:
+        path = algs.BFS()
+    if alg == 4:
+        path = algs.DFS()
 
     g.plotpath(circuito,path,600*mw,400*mh)
     flag=True
@@ -226,6 +224,12 @@ def interagealg(screen,alg,g:graph.graph, y, b, partida,fim):
                     g.desenha()
                     pygame.display.update()
                     
+                #Mostrar percurso
+                if 350*mw <= mouse[0] <= 560*mw and height/2 +250*mh <= mouse[1] <= height/2+330*mh:
+                    g.plotpathreset(circuito,path,600*mw,400*mh)
+                    g.plotpathupdate(circuito,path,600*mw,400*mh)
+                    pygame.display.update()
+
 
                 #Usar outro algoritmo
                 if 1310*mw <= mouse[0] <= 1760*mw and height/2+250*mh <= mouse[1] <= height/2+330*mh: 
@@ -257,13 +261,19 @@ def interagealg(screen,alg,g:graph.graph, y, b, partida,fim):
 
 
             #grafo light shade
-            if 350*mw <= mouse[0] <= 560*mw and height/2 +250*mh <= mouse[1] <= height/2+330*mh: 
-                pygame.draw.rect(screen,color_light,[210*mw,height/2 +250*mh ,350*mw,80*mh])
+            if width/2 -225*mw <= mouse[0] <= width/2 +125*mw and height/2 +250*mh <= mouse[1] <= height/2+330*mh: 
+                pygame.draw.rect(screen,color_light,[width/2 -225*mw,height/2 +250*mh ,350*mw,80*mh])
                 
             #grafo darker shade    
             else: 
-                pygame.draw.rect(screen,color_dark,[210*mw,height/2 +250*mh ,350*mw,80*mh]) 
+                pygame.draw.rect(screen,color_dark,[width/2 -225*mw,height/2 +250*mh ,350*mw,80*mh]) 
 
+            #Mostrar percurso light shade
+            if 350*mw <= mouse[0] <= 560*mw and height/2 +250*mh <= mouse[1] <= height/2+330*mh: 
+                pygame.draw.rect(screen,color_light,[210*mw,height/2 +250*mh ,350*mw,80*mh])
+            #Mostrar percurso darker shade
+            else: 
+                pygame.draw.rect(screen,color_dark,[210*mw,height/2 +250*mh ,350*mw,80*mh]) 
 
             #algoritmo light shade
             if 1310*mw <= mouse[0] <= 1760*mw and height/2+250*mh <= mouse[1] <= height/2+330*mh: 
@@ -278,6 +288,7 @@ def interagealg(screen,alg,g:graph.graph, y, b, partida,fim):
             screen.blit(quit , (width-230*mw,height-140*mh))
 
             screen.blit(grafo , (230*mw,height/2 +270*mh))
+            screen.blit(mostrarpath, (width/2 -200*mw,height/2 +270*mh))
             screen.blit(algoritmo , (1330*mw,height/2 +270*mh))
 
             screen.blit(circuito, (width/2-280*mw,height/2-250*mh))
