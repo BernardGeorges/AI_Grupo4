@@ -52,24 +52,29 @@ class graph:
         pygame.display.update()
         return x, y
 
+    def plotpaths(self,janela,paths, x1, y1):
+        for path in paths:
+            self.plotpath(janela,path,x1,y1, False)
+
     # Faz a representação em VectorRace do circuito
-    def plotpath(self, janela, path, x1, y1):
+    def plotpath(self, janela, path, x1, y1, repeat = True):
         y2 = len(self.matrix)
         x2 = len(self.matrix[0])
-        y = 0
-        for row in self.matrix:
-            x = 0
-            for item in row:
-                if item == 'X':
-                    self.createSquare(x, y, (255, 255, 255), janela, x1, y1, x2, y2)
-                elif item == 'P':
-                    self.createSquare(x, y, (0, 255, 0), janela, x1, y1, x2, y2)
-                elif item == 'F':
-                    self.createSquare(x, y, (255, 0, 0), janela, x1, y1, x2, y2)
-                else:
-                    self.createSquare(x, y, (128, 128, 128), janela, x1, y1, x2, y2)
-                x += x1 / x2
-            y += y1 / y2
+        if repeat:
+            y = 0
+            for row in self.matrix:
+                x = 0
+                for item in row:
+                    if item == 'X':
+                        self.createSquare(x, y, (255, 255, 255), janela, x1, y1, x2, y2)
+                    elif item == 'P':
+                        self.createSquare(x, y, (0, 255, 0), janela, x1, y1, x2, y2)
+                    elif item == 'F':
+                        self.createSquare(x, y, (255, 0, 0), janela, x1, y1, x2, y2)
+                    else:
+                        self.createSquare(x, y, (128, 128, 128), janela, x1, y1, x2, y2)
+                    x += x1 / x2
+                y += y1 / y2
         for (x, y), vel in path:
             plotX = x * x1 / x2
             plotY = y * y1 / y2
