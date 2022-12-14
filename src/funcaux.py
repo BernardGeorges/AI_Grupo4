@@ -384,9 +384,6 @@ def multiplayercircuito(screen,g, y, b, partida,fim):
                             interagemultiplayer(screen,g,partida, fim, algs,b)
                         flag = False
                         break
-
-
-                    
             if flag:                
                 # fills the screen with a color 
                 screen.fill(dark_theme) 
@@ -480,7 +477,9 @@ def interagemultiplayer(screen,g,partida, fim, algs,matrix ):
     circuito = pygame.Surface((600*mw,400*mh))
     print(algs)
     paths = mp.run(algs)
-    g.plotpaths(circuito,paths,600*mw,400*mh)
+    #for path in paths:
+    #path.plotpath(path)
+    #g.plotpath(circuito,path,600*mw,400*mh)
     flag=True
     while flag:
         for ev in pygame.event.get(): 
@@ -500,8 +499,8 @@ def interagemultiplayer(screen,g,partida, fim, algs,matrix ):
                     
                 #Mostrar percurso
                 if 350*mw <= mouse[0] <= 560*mw and height/2 +250*mh <= mouse[1] <= height/2+330*mh:
-                    g.plotpathreset(circuito,paths,600*mw,400*mh)
-                    g.plotpathupdate(circuito,paths,600*mw,400*mh)
+                    g.plotpathreset(circuito,path,600*mw,400*mh)
+                    g.plotpathupdate(circuito,path,600*mw,400*mh)
                     pygame.display.update()
 
 
