@@ -5,6 +5,7 @@ import inputbox
 import graph
 import circuitos
 from multiplayer import multiplayer
+import time
 
 infores =pygame.display.Info()
 mw= (infores.current_w / 1920)
@@ -229,9 +230,10 @@ def interagealg(screen,alg,g:graph.graph, y, b, partida,fim):
                     pygame.display.update()
                     
                 #Mostrar percurso
-                if 350*mw <= mouse[0] <= 560*mw and height/2 +250*mh <= mouse[1] <= height/2+330*mh:
-                    g.plotpathreset(circuito,path,600*mw,400*mh)
-                    g.plotpathupdate(circuito,path,600*mw,400*mh)
+                if width/2 -225*mw <= mouse[0] <= width/2 +125*mw and height/2 +250*mh <= mouse[1] <= height/2+330*mh:
+                    g.plot(circuito,600*mw,400*mh)
+                    screen.blit(circuito, (width/2-280*mw,height/2-250*mh))
+                    g.plotpathupdate(circuito,path,600*mw,400*mh, width/2-280*mw,height/2-250*mh,screen)
                     pygame.display.update()
 
 
@@ -380,7 +382,7 @@ def multiplayercircuito(screen,g, y, b, partida,fim):
                         pygame.display.update()
                         algs.append('DFS')
                         iterator=iterator+1
-                        if iterator == l:
+                        if iterator == l+1:
                             interagemultiplayer(screen,g,partida, fim, algs,b)
                         flag = False
                         break
@@ -478,7 +480,7 @@ def interagemultiplayer(screen,g,partida, fim, algs,matrix ):
     print(algs)
     paths = mp.run(algs)
     #for path in paths:
-    #path.plotpath(path)
+    g.plotpaths(circuito,paths,600*mw,400*mh)
     #g.plotpath(circuito,path,600*mw,400*mh)
     flag=True
     while flag:
