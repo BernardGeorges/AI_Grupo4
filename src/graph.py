@@ -122,6 +122,42 @@ class graph:
             self.createSquare(plotX, plotY, (0, 0, 255), janela, x1, y1, x2, y2)
             screen.blit(janela, (blitx,blity))
             pygame.display.update()
+    
+    def plotpathupdatemulti(self,janela, paths,x1,y1,blitx,blity,screen):
+        y2 = len(self.matrix)
+        x2 = len(self.matrix[0])
+        i = 0
+        
+        maxlen=0
+        for path in paths:
+            if(len(path)>maxlen):maxlen = len(path)
+        while maxlen>i:
+            time.sleep(1)
+            for j in range(1,len(paths)+1):
+                if j ==1:
+                    color=(0,0,255)
+                elif j == 2:
+                    color=(255,0,0)
+                elif j == 3:
+                    color=(0,255,0)
+                elif j == 4:
+                    color=(0,255,255)
+                elif j == 5:
+                    color= (255,0,255)
+                elif j == 6:
+                    color = (255,255,0)
+                else:
+                    color = (150, 75, 0)
+                path= paths[j-1]
+                if (len(path)>i):
+                    (x,y), vel = path[i]
+                    plotX = x * x1 / x2
+                    plotY = y * y1 / y2
+                    self.createSquare(plotX, plotY, color, janela, x1, y1, x2, y2)
+            screen.blit(janela, (blitx,blity))
+            pygame.display.update()
+            i+=1
+
 
     def __str__(self):
         out = " "

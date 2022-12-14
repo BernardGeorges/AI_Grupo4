@@ -501,8 +501,9 @@ def interagemultiplayer(screen,g,partida, fim, algs,matrix ):
                     
                 #Mostrar percurso
                 if 350*mw <= mouse[0] <= 560*mw and height/2 +250*mh <= mouse[1] <= height/2+330*mh:
-                    g.plotpathreset(circuito,paths,600*mw,400*mh)
-                    g.plotpathupdate(circuito,paths,600*mw,400*mh)
+                    g.plot(circuito,600*mw,400*mh)
+                    screen.blit(circuito, (width/2-280*mw,height/2-250*mh))
+                    g.plotpathupdatemulti(circuito,paths,600*mw,400*mh, width/2-280*mw,height/2-250*mh,screen)
                     pygame.display.update()
 
 
