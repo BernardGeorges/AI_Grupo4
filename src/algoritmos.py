@@ -17,6 +17,7 @@ class algoritmos:
             i += 1
 
     def colisao(self, pos, play: str):
+        print(pos)
         if self.matrix is None:
             return True
         if 0 < pos[0] < len(self.matrix[0]) and 0 < pos[1] < len(self.matrix):

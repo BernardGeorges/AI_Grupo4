@@ -472,12 +472,12 @@ def multiplayercircuito(screen,g, y, b, partida,fim):
    
 
 def interagemultiplayer(screen,g,partida, fim, algs,matrix ):
-    print(partida)
-    print(fim)
-    print(matrix)
+    #print(partida)
+    #print(fim)
+    #print(matrix)
     mp = multiplayer(partida,fim,matrix)
     circuito = pygame.Surface((600*mw,400*mh))
-    print(algs)
+    #print(algs)
     paths = mp.run(algs)
     #for path in paths:
     g.plotpaths(circuito,paths,600*mw,400*mh)
