@@ -17,7 +17,8 @@ class algoritmos:
             i += 1
 
     def colisao(self, pos, play: str):
-        print(pos)
+        #print(pos)
+        #print(play)
         if self.matrix is None:
             return True
         if 0 < pos[0] < len(self.matrix[0]) and 0 < pos[1] < len(self.matrix):
@@ -104,6 +105,6 @@ class algoritmos:
                 return nodo_atual[1]
             else:
                 for (adjacente, peso) in self.grafo[nodo_atual[0]]:
-                    if adjacente not in visited and self.colisao(nodo_atual[0],str(nodo_atual[1])):
+                    if adjacente not in visited and self.colisao(nodo_atual[0][0],str(len(nodo_atual[1]))):
                         fila.put((adjacente,nodo_atual[1]+[adjacente],nodo_atual[2]+peso))
                         visited.add(adjacente)
