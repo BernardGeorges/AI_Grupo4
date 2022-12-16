@@ -52,7 +52,6 @@ class algoritmos:
             for path in self.paths:
                 if len(path) <= play:
                     return True
-           # a1x + 1y + c1 = 0 and a2x + b2y + c2 = 0
                 ponto = self.calculaPonto(path[play],estadoFinal)
                 if ponto is None:
                     return self.matrix[nodoPlayer[1]][nodoPlayer[0]] != str(play)
@@ -64,9 +63,6 @@ class algoritmos:
                     speedPlayer1 = math.sqrt((path[play-1][0][1]^2) + (path[play-1][0][0]^2))
                     tempoPlayer0 = round(distanciaPlayer0/speedPlayer0,1)
                     tempoPlayer1 = round(distanciaPlayer1/speedPlayer1,1)
-                    print(estadoInicial, " -> ", estadoFinal)
-                    print(tempoPlayer1)
-                    print(tempoPlayer0)
                     return self.matrix[nodoPlayer[1]][nodoPlayer[0]] != str(play) and tempoPlayer0 != tempoPlayer1
                 else:
                     return self.matrix[nodoPlayer[1]][nodoPlayer[0]] != str(play)
