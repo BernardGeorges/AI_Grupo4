@@ -53,13 +53,31 @@ class graph:
         return x, y
 
     def plotpaths(self,janela,paths, x1, y1):
+        i=1
+        self.plot(janela,x1,y1)
         for path in paths:
-            self.plotpath(janela,path,x1,y1, False)
+            self.plotpath(janela,path,x1,y1, False,i)
+            i=i+1
 
     # Faz a representação em VectorRace do circuito
-    def plotpath(self, janela, path, x1, y1, repeat = True):
+    def plotpath(self, janela, path, x1, y1, repeat = True, i =1):
         y2 = len(self.matrix)
         x2 = len(self.matrix[0])
+        if i ==1:
+            color=(0,0,255)
+        elif i == 2:
+            color=(255,0,0)
+        elif i == 3:
+            color=(0,255,0)
+        elif i == 4:
+            color=(0,255,255)
+        elif i == 5:
+            color= (255,0,255)
+        elif i == 6:
+            color = (255,255,0)
+        else:
+            color = (150, 75, 0)
+
         if repeat:
             y = 0
             for row in self.matrix:
@@ -79,7 +97,7 @@ class graph:
             plotX = x * x1 / x2
             plotY = y * y1 / y2
             # time.sleep(1)
-            self.createSquare(plotX, plotY, (0, 0, 255), janela, x1, y1, x2, y2)
+            self.createSquare(plotX, plotY, color, janela, x1, y1, x2, y2)
         pygame.display.update()  # inutil nao sei pq e que ta aqui
 
     def plotpathreset(self, janela, path, x1, y1):
@@ -89,18 +107,57 @@ class graph:
             plotX = x * x1 / x2
             plotY = y * y1 / y2
             r = self.createSquare(plotX, plotY, (128, 128, 128), janela, x1, y1, x2, y2)
-            janela.blit(r, plotX, plotY)
+            janela.blit(janela, plotX, plotY)
         pygame.display.update()
 
-    def plotpathupdate(self, janela, path, x1, y1):
+    def plotpathupdate(self, janela, path, x1, y1, blitx,blity,screen):
+        
         y2 = len(self.matrix)
         x2 = len(self.matrix[0])
+
         for (x, y), vel in path:
             plotX = x * x1 / x2
             plotY = y * y1 / y2
+            time.sleep(0.3)
+            self.createSquare(plotX, plotY, (0, 0, 255), janela, x1, y1, x2, y2)
+            screen.blit(janela, (blitx,blity))
+            pygame.display.update()
+    
+    def plotpathupdatemulti(self,janela, paths,x1,y1,blitx,blity,screen):
+        y2 = len(self.matrix)
+        x2 = len(self.matrix[0])
+        i = 0
+        
+        maxlen=0
+        for path in paths:
+            if(len(path)>maxlen):maxlen = len(path)
+        while maxlen>i:
             time.sleep(1)
-            r = self.createSquare(plotX, plotY, (0, 0, 255), janela, x1, y1, x2, y2)
-            janela.blit(r, x1, y1)
+            for j in range(1,len(paths)+1):
+                if j ==1:
+                    color=(0,0,255)
+                elif j == 2:
+                    color=(255,0,0)
+                elif j == 3:
+                    color=(0,255,0)
+                elif j == 4:
+                    color=(0,255,255)
+                elif j == 5:
+                    color= (255,0,255)
+                elif j == 6:
+                    color = (255,255,0)
+                else:
+                    color = (150, 75, 0)
+                path= paths[j-1]
+                if (len(path)>i):
+                    (x,y), vel = path[i]
+                    plotX = x * x1 / x2
+                    plotY = y * y1 / y2
+                    self.createSquare(plotX, plotY, color, janela, x1, y1, x2, y2)
+            screen.blit(janela, (blitx,blity))
+            pygame.display.update()
+            i+=1
+
 
     def __str__(self):
         out = " "
