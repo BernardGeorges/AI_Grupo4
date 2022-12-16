@@ -19,7 +19,7 @@ class multiplayer:
         paths = []
         for nodos in self.partida:
             grafo = graph(nodos,self.matriz,self.fim)
-            algs = algoritmos(grafo,nodos,self.fim,self.matriz)
+            algs = algoritmos(grafo,nodos,self.fim,self.matriz,paths)
             path = None
             match algoritmosPlayer[i]:
                 case "A*":
@@ -32,4 +32,6 @@ class multiplayer:
                     path = algs.BFS()
             paths.append(path)
             algs.plotPath(path)
+            i += 1
+        print(self.matriz)
         return paths

@@ -123,12 +123,12 @@ class graph:
                                                                                                        aceleracao)
                     if ((nextPos, nextVel) not in grafo.keys() or first) and self.estadoPossivel(
                             nextPos) and self.passagemPossivel(posicao, nextPos, True):
-                        grafo[(posicao, velocidade)].add(
-                            ((nextPos, nextVel), self.calcBestHeuristica([(posicao, velocidade)], self.end, False)))
+                        heuristica = self.calcBestHeuristica([(nextPos, nextVel)], self.end, False)
+                        grafo[(posicao, velocidade)].add(((nextPos, nextVel), heuristica))
                         porVisitar.append((nextPos, nextVel))
                     elif (nextPos, nextVel) not in grafo.keys():
                         grafo[(posicao, velocidade)].add(((nextPos, nextVel),
-                                                          25 * self.calcBestHeuristica([(posicao, velocidade)],
+                                                          25 * self.calcBestHeuristica([(nextPos, nextVel)],
                                                                                        self.end, False)))
                         grafo[(nextPos, nextVel)] = set()
                         grafo[(nextPos, nextVel)].add(((posicao, velocidade), 250))
@@ -144,7 +144,7 @@ class graph:
         i -= 1
         best = math.inf
         for x2, y2 in end:
-            tenta = math.sqrt((math.pow(x2 - x1, 2) + math.pow(y2 - y1, 2)))
+            tenta = math.sqrt((math.pow((x2 - x1), 2) + math.pow((y2 - y1), 2)))
             if (tenta < best):
                 best = tenta
         if isAEstrela:
@@ -201,12 +201,8 @@ class graph:
                     ac.append((-1, 0))
                 if difY > 0:
                     ac.append((0, 1))
-                    if (ac[0][0], 1) not in ac:
-                        ac.append((ac[0][0], 1))
                 elif difY < 0:
                     ac.append((0, -1))
-                    if (ac[0][0], -1) not in ac:
-                        ac.append((ac[0][0], -1))
             factor = ac[len(ac) - 1]
             filhos = []
             for vel in ac:
