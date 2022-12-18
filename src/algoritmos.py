@@ -92,7 +92,7 @@ class algoritmos:
                 if estado[0] in self.end:
                     return pathUntilNow
                 # se não e não estiver nos visitados adiciona-o ao nodos ainda por visitar e caso seja multiplayer nao haja colisao
-                elif estado not in visitados and self.colisao(estado,len(pathUntilNow),best[0]):
+                elif estado not in visitados and self.colisao(estado,(len(pathUntilNow)-1),best[0]):
                     visitados.append(estado)
                     possiveis.append((estado, self.graph.calcBestHeuristica(pathUntilNow, self.end), pathUntilNow))
 
@@ -112,7 +112,7 @@ class algoritmos:
         resultado = None
         while resultado is None and len(best_nodes) > 0:
            best_node = best_nodes.pop(0)
-           if self.graph.estadoPossivel(best_node[0][0]) and self.colisao(best_node[0], len(path), ponto):
+           if self.graph.estadoPossivel(best_node[0][0]) and self.colisao(best_node[0], (len(path)-1), ponto):
                 oldPath = path.copy()
                 resultado = self.Greedy(best_node[0],path,visited)
                 path = oldPath
@@ -132,7 +132,7 @@ class algoritmos:
                 for (adjacente, peso) in self.grafo[nodo_atual[0]]:
                     nodo_atual_path = nodo_atual[1].copy()
                     nodo_atual_path.append(adjacente)
-                    if adjacente not in visited and self.colisao(adjacente[0],len(nodo_atual_path),nodo_atual):
+                    if adjacente not in visited and self.colisao(adjacente[0],(len(nodo_atual_path)-1),nodo_atual):
                         stack.append((adjacente, nodo_atual_path, nodo_atual[2] + peso))
                         visited.add(adjacente)
 
@@ -149,6 +149,6 @@ class algoritmos:
                 return nodo_atual[1]
             else:
                 for (adjacente, peso) in self.grafo[nodo_atual[0]]:
-                    if adjacente not in visited and self.colisao(adjacente,len(nodo_atual[1]),nodo_atual):
+                    if adjacente not in visited and self.colisao(adjacente,(len(nodo_atual[1])-1),nodo_atual):
                         fila.put((adjacente,nodo_atual[1]+[adjacente],nodo_atual[2]+peso))
                         visited.add(adjacente)
