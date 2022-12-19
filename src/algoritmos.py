@@ -99,6 +99,7 @@ class algoritmos:
     def Greedy(self,ponto = None,path=[],visited=set()):
         if ponto == None:
             visited = set()
+            path = []
             ponto = (self.start,(0,0))
         path.append(ponto)
         visited.add(ponto)
@@ -132,7 +133,7 @@ class algoritmos:
                 for (adjacente, peso) in self.grafo[nodo_atual[0]]:
                     nodo_atual_path = nodo_atual[1].copy()
                     nodo_atual_path.append(adjacente)
-                    if adjacente not in visited and self.colisao(adjacente[0],(len(nodo_atual_path)-1),nodo_atual):
+                    if adjacente not in visited and self.colisao(adjacente,(len(nodo_atual_path)-1),nodo_atual[0]):
                         stack.append((adjacente, nodo_atual_path, nodo_atual[2] + peso))
                         visited.add(adjacente)
 
@@ -149,6 +150,6 @@ class algoritmos:
                 return nodo_atual[1]
             else:
                 for (adjacente, peso) in self.grafo[nodo_atual[0]]:
-                    if adjacente not in visited and self.colisao(adjacente,(len(nodo_atual[1])-1),nodo_atual):
+                    if adjacente not in visited and self.colisao(adjacente,(len(nodo_atual[1])-1),nodo_atual[0]):
                         fila.put((adjacente,nodo_atual[1]+[adjacente],nodo_atual[2]+peso))
                         visited.add(adjacente)
