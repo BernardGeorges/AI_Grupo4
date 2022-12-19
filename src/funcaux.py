@@ -207,6 +207,9 @@ def interagealg(screen,alg,g:graph.graph, y, b, partida,fim):
         path = algs.DFS()
 
     g.plotpath(circuito,path,600*mw,400*mh)
+    custofinal=g.custoFinal(path)
+    cf = smallfont.render('Custo: ' + str(custofinal), True, white)
+
     flag=True
     while flag:
         for ev in pygame.event.get(): 
@@ -291,6 +294,7 @@ def interagealg(screen,alg,g:graph.graph, y, b, partida,fim):
 
             # superimposing the text onto our button 
             screen.blit(vectorace,(width/2-250*mw, 50*mh))
+            screen.blit(cf,(width/2-50*mw, 230*mh))
             screen.blit(quit , (width-230*mw,height-140*mh))
 
             screen.blit(grafo , (230*mw,height/2 +270*mh))
@@ -481,6 +485,22 @@ def interagemultiplayer(screen,g,partida, fim, algs,matrix ):
     paths = mp.run(algs)
     #for path in paths:
     g.plotpaths(circuito,paths,600*mw,400*mh)
+    lcusto=0
+    hcusto = 0
+    cstr=''
+    for path in paths:
+        if lcusto % 4 == 0:
+            cstr+="\n"
+            hcusto= hcusto + 1
+        lcusto += 1
+        cstr+='Custo do Jogador '
+        cstr+=str(lcusto)
+        cstr+=': '
+        custofinal=g.custoFinal(path)
+        cstr+=str(custofinal)
+        cstr+=' ,'
+    cstr=cstr[:-1]
+    cf = smallfont.render(cstr, True, white)
     #g.plotpath(circuito,path,600*mw,400*mh)
     flag=True
     while flag:
@@ -551,6 +571,7 @@ def interagemultiplayer(screen,g,partida, fim, algs,matrix ):
 
             # superimposing the text onto our button 
             screen.blit(vectorace,(width/2-250*mw, 50*mh))
+            screen.blit(cf,(width/2-200*lcusto*mw, 230*mh-50*mh*hcusto))
             screen.blit(quit , (width-230*mw,height-140*mh))
 
             screen.blit(mostrarpath, (230*mw,height/2 +270*mh))
