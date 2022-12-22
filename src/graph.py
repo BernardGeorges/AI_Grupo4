@@ -66,7 +66,7 @@ class graph:
         if i ==1:
             color=(0,0,255)
         elif i == 2:
-            color=(255,0,0)
+            color=(150, 75, 0)
         elif i == 3:
             color=(0,255,0)
         elif i == 4:
@@ -76,7 +76,7 @@ class graph:
         elif i == 6:
             color = (255,255,0)
         else:
-            color = (150, 75, 0)
+            color = (255,0,0)
 
         if repeat:
             y = 0
@@ -132,12 +132,12 @@ class graph:
         for path in paths:
             if(len(path)>maxlen):maxlen = len(path)
         while maxlen>i:
-            time.sleep(1)
+            time.sleep(0.5)
             for j in range(1,len(paths)+1):
                 if j ==1:
                     color=(0,0,255)
                 elif j == 2:
-                    color=(255,0,0)
+                    color=(150, 75, 0)
                 elif j == 3:
                     color=(0,255,0)
                 elif j == 4:
@@ -147,7 +147,7 @@ class graph:
                 elif j == 6:
                     color = (255,255,0)
                 else:
-                    color = (150, 75, 0)
+                    color = (255, 0, 0)
                 path= paths[j-1]
                 if (len(path)>i):
                     (x,y), vel = path[i]

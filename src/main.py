@@ -215,7 +215,7 @@ def main():
             else:
                 pygame.draw.rect(screen, color_dark, [1410 * mw, height / 2 - 20 * mh, 210 * mw, 80 * mh])
 
-                # superimposing the text onto our button
+            # superimposing the text onto our button
             screen.blit(vectorace, (width / 2 - 250 * mw, 50 * mh))
             screen.blit(select, (width / 2 - 380 * mw, height / 2 - 240 * mh))
             screen.blit(quit, (width - 230 * mw, height - 140 * mh))

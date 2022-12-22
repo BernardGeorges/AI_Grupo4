@@ -198,18 +198,17 @@ def interagealg(screen,alg,g:graph.graph, y, b, partida,fim):
     algs = algoritmos(g,partida[0],fim)
     circuito = pygame.Surface((600*mw,400*mh))
     if alg == 1:
-        path = algs.AEstrela()
+        path,vi = algs.AEstrela()
     if alg == 2:
-        path = algs.Greedy()
+        path,vi = algs.Greedy()
     if alg == 3:
-        path = algs.BFS()
+        path,vi = algs.BFS()
     if alg == 4:
-        path = algs.DFS()
+        path,vi = algs.DFS()
 
     g.plotpath(circuito,path,600*mw,400*mh)
     custofinal=g.custoFinal(path)
     cf = smallfont.render('Custo: ' + str(custofinal), True, white)
-
     flag=True
     while flag:
         for ev in pygame.event.get(): 
@@ -237,6 +236,7 @@ def interagealg(screen,alg,g:graph.graph, y, b, partida,fim):
                     g.plot(circuito,600*mw,400*mh)
                     screen.blit(circuito, (width/2-280*mw,height/2-250*mh))
                     g.plotpathupdate(circuito,path,600*mw,400*mh, width/2-280*mw,height/2-250*mh,screen)
+                    circuitos.logging(vi, path, custofinal)
                     pygame.display.update()
 
 
@@ -482,7 +482,7 @@ def interagemultiplayer(screen,g,partida, fim, algs,matrix ):
     mp = multiplayer(partida,fim,matrix)
     circuito = pygame.Surface((600*mw,400*mh))
     #print(algs)
-    paths = mp.run(algs)
+    paths,vs = mp.run(algs)
     #for path in paths:
     g.plotpaths(circuito,paths,600*mw,400*mh)
     lcusto=0
@@ -524,6 +524,7 @@ def interagemultiplayer(screen,g,partida, fim, algs,matrix ):
                     g.plot(circuito,600*mw,400*mh)
                     screen.blit(circuito, (width/2-280*mw,height/2-250*mh))
                     g.plotpathupdatemulti(circuito,paths,600*mw,400*mh, width/2-280*mw,height/2-250*mh,screen)
+                    circuitos.loggingmulti(vs, paths, cstr)
                     pygame.display.update()
 
 
