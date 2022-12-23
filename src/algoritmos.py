@@ -11,14 +11,6 @@ class algoritmos:
         self.matrix = matriz
         self.paths = paths
 
-    def plotPath(self, path):
-        i = 0
-        for ((x,y), vel) in path:
-            if self.matrix[y][x].isnumeric():
-                self.matrix[y][x] + str(i)
-            else:
-                self.matrix[y][x] = str(i)
-            i += 1
 
     def calculaReta(self,estado):
         nodoPlayer, velPlayer = estado
@@ -60,7 +52,7 @@ class algoritmos:
                     continue
                 ponto = self.calculaPonto(path[play],estadoFinal)
                 if ponto is None:
-                    ret = str(play) not in self.matrix[nodoPlayer[1]][nodoPlayer[0]]
+                    ret = estadoFinal[0] != path[play][0]
                     continue
                 x,y = ponto
                 if min(estadoInicial[0][0],estadoFinal[0][0]) <= x <= max(estadoInicial[0][0],estadoFinal[0][0]) and min(estadoInicial[0][1],estadoFinal[0][1]) <= y <= max(estadoInicial[0][1],estadoFinal[0][1]) and min(path[play-1][0][0], path[play][0][0]) <= x <= max(path[play-1][0][0], path[play][0][0]) and min(path[play-1][0][1], path[play][0][1]) <= y <= max(path[play-1][0][1], path[play][0][1]):
@@ -70,9 +62,9 @@ class algoritmos:
                     speedPlayer1 = math.sqrt(pow(path[play][1][1],2) + pow(path[play][1][0],2))
                     tempoPlayer0 = round(distanciaPlayer0/speedPlayer0,1)
                     tempoPlayer1 = round(distanciaPlayer1/speedPlayer1,1)
-                    ret = str(play) not in self.matrix[nodoPlayer[1]][nodoPlayer[0]] and abs(tempoPlayer0) != abs(tempoPlayer1)
+                    ret = estadoFinal[0] != path[play][0] and abs(tempoPlayer0) != abs(tempoPlayer1)
                 else:
-                    ret = str(play) not in self.matrix[nodoPlayer[1]][nodoPlayer[0]]
+                    ret = estadoFinal[0] != path[play][0]
         else:
             ret = False
         return ret
@@ -121,7 +113,7 @@ class algoritmos:
         resultado = None
         while resultado is None and len(best_nodes) > 0:
            best_node = best_nodes.pop(0)
-           if self.graph.estadoPossivel(best_node[0][0]) and self.colisao(best_node[0], (len(path)-1), ponto):
+           if self.graph.estadoPossivel(best_node[0][0]) and self.colisao(best_node[0], (len(path)), ponto):
                 oldPath = path.copy()
                 resultado,vis = self.Greedy(best_node[0],path,visited)
                 path = oldPath
@@ -158,6 +150,6 @@ class algoritmos:
                 return nodo_atual[1],visited
             else:
                 for (adjacente, peso) in self.grafo[nodo_atual[0]]:
-                    if adjacente not in visited and self.colisao(adjacente,(len(nodo_atual[1])-1),nodo_atual[0]):
+                    if adjacente not in visited and self.colisao(adjacente,len(nodo_atual[1]),nodo_atual[0]):
                         fila.put((adjacente,nodo_atual[1]+[adjacente],nodo_atual[2]+peso))
                         visited.append(adjacente)

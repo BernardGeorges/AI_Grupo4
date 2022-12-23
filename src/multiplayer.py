@@ -33,7 +33,6 @@ class multiplayer:
                     path,v = algs.BFS()
             paths.append(path)
             vs.append(v)
-            algs.plotPath(path)
             i += 1
         #print(self.matriz)
         return paths,v

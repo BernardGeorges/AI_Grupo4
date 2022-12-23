@@ -4,7 +4,7 @@ from graph import graph
 from multiplayer import multiplayer
 import time
 def main():
-    circuito = "./maps/circuito3.txt"
+    circuito = "./maps/circuitoMultiplayer.txt"
     file = open(circuito)
     y = 0
     b = []
@@ -26,7 +26,7 @@ def main():
     algs = algoritmos(g,partida,fim)
     print(g.passagemPossivel((11,2),(16,3),True))
     mp = multiplayer(partida,fim,b)
-    paths = mp.run(["A*", "Greedy"])
+    paths = mp.run(["A*", "Greedy", "BFS", "DFS"])
     print(b)
     print("passagem é: ", paths)
 
