@@ -53,7 +53,8 @@ def main():
     enunciado = smallerfont.render('   (enunciado)', True, white)
     circuito2 = smallfont.render('Circuito 2', True, white)
     circuito3 = smallfont.render('Circuito 3', True, white)
-    circuito4 = smallfont.render('Circuito 4', True, white)
+    circuito4 = smallfont.render('Circuito', True, white)
+    circuito4 = smallfont.render('Multiplayer', True, white)
     circuitoopcional = smallfont.render('Adicionar circuito', True, white)
     inputbox1 = inputbox.InputBox(580 * mw, height - 145 * mh, 300, 45, "maps/circuito1.txt")
     defaultinput = "maps/circuito1.txt"
@@ -109,7 +110,7 @@ def main():
 
                 # Circuito 2
                 if 610 * mw <= mouse[0] <= 820 * mw and height / 2 - 20 * mh <= mouse[1] <= height / 2 + 60 * mh:
-                    g, y, b, partida, fim = circuitos.loadcircuit("maps/circuitoMultiplayer.txt")
+                    g, y, b, partida, fim = circuitos.loadcircuit("maps/circuito2.txt")
                     l = len(partida)
                     screen.fill(dark_theme)
                     pygame.display.update()
@@ -133,7 +134,7 @@ def main():
 
                 # Circuito 4
                 if 1410 * mw <= mouse[0] <= 1620 * mw and height / 2 - 20 * mh <= mouse[1] <= height / 2 + 60 * mh:
-                    g, y, b, partida, fim = circuitos.loadcircuit("maps/circuito4.txt")
+                    g, y, b, partida, fim = circuitos.loadcircuit("maps/circuitoMultiplayer.txt")
                     l = len(partida)
                     screen.fill(dark_theme)
                     pygame.display.update()
