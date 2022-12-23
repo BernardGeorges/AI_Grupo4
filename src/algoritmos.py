@@ -54,7 +54,7 @@ class algoritmos:
         ret = True
         if 0 < nodoPlayer[0] < len(self.matrix[0]) and 0 < nodoPlayer[1] < len(self.matrix):
             for path in self.paths:
-                if ret == False:
+                if ret is False:
                     return ret
                 if len(path) <= play:
                     continue
