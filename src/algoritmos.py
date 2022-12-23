@@ -14,7 +14,10 @@ class algoritmos:
     def plotPath(self, path):
         i = 0
         for ((x,y), vel) in path:
-            self.matrix[y][x] = str(i)
+            if self.matrix[y][x].isnumeric():
+                self.matrix[y][x] + str(i)
+            else:
+                self.matrix[y][x] = str(i)
             i += 1
 
     def calculaReta(self,estado):
@@ -48,13 +51,17 @@ class algoritmos:
         if self.matrix is None or len(self.paths) <= 0:
             return True
         nodoPlayer, velPlayer = estadoFinal
+        ret = True
         if 0 < nodoPlayer[0] < len(self.matrix[0]) and 0 < nodoPlayer[1] < len(self.matrix):
             for path in self.paths:
+                if ret == False:
+                    return ret
                 if len(path) <= play:
-                    return True
+                    continue
                 ponto = self.calculaPonto(path[play],estadoFinal)
                 if ponto is None:
-                    return self.matrix[nodoPlayer[1]][nodoPlayer[0]] != str(play)
+                    ret = str(play) not in self.matrix[nodoPlayer[1]][nodoPlayer[0]]
+                    continue
                 x,y = ponto
                 if min(estadoInicial[0][0],estadoFinal[0][0]) <= x <= max(estadoInicial[0][0],estadoFinal[0][0]) and min(estadoInicial[0][1],estadoFinal[0][1]) <= y <= max(estadoInicial[0][1],estadoFinal[0][1]) and min(path[play-1][0][0], path[play][0][0]) <= x <= max(path[play-1][0][0], path[play][0][0]) and min(path[play-1][0][1], path[play][0][1]) <= y <= max(path[play-1][0][1], path[play][0][1]):
                     distanciaPlayer0 = self.graph.calcBestHeuristica([((x,y),estadoInicial[1])],[estadoFinal[0]],False)
@@ -63,11 +70,12 @@ class algoritmos:
                     speedPlayer1 = math.sqrt(pow(path[play][1][1],2) + pow(path[play][1][0],2))
                     tempoPlayer0 = round(distanciaPlayer0/speedPlayer0,1)
                     tempoPlayer1 = round(distanciaPlayer1/speedPlayer1,1)
-                    return self.matrix[nodoPlayer[1]][nodoPlayer[0]] != str(play) and tempoPlayer0 != tempoPlayer1
+                    ret = str(play) not in self.matrix[nodoPlayer[1]][nodoPlayer[0]] and tempoPlayer0 != tempoPlayer1
                 else:
-                    return self.matrix[nodoPlayer[1]][nodoPlayer[0]] != str(play)
+                    ret = str(play) not in self.matrix[nodoPlayer[1]][nodoPlayer[0]]
         else:
-            return False
+            ret = False
+        return ret
 
         # algoritmo de pesquisa A*
     def AEstrela(self):
