@@ -17,21 +17,23 @@ class multiplayer:
             return None
         i = 0
         paths = []
+        vs=[]
         for nodos in self.partida:
             grafo = graph(nodos,self.matriz,self.fim)
             algs = algoritmos(grafo,nodos,self.fim,self.matriz,paths)
             path = None
             match algoritmosPlayer[i]:
                 case "A*":
-                    path = algs.AEstrela()
+                    path,v = algs.AEstrela()
                 case "Greedy":
-                    path = algs.Greedy()
+                    path,v = algs.Greedy()
                 case "DFS":
-                    path = algs.DFS()
+                    path,v = algs.DFS()
                 case "BFS":
-                    path = algs.BFS()
+                    path,v = algs.BFS()
             paths.append(path)
+            vs.append(v)
             algs.plotPath(path)
             i += 1
-        print(self.matriz)
-        return paths
+        #print(self.matriz)
+        return paths,v

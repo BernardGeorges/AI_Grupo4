@@ -98,22 +98,22 @@ class algoritmos:
                 pathUntilNow.append(estado)
                 # se o filho for um dos nodos finais retorna o caminho
                 if estado[0] in self.end:
-                    return pathUntilNow
+                    return pathUntilNow,visitados
                 # se não e não estiver nos visitados adiciona-o ao nodos ainda por visitar e caso seja multiplayer nao haja colisao
                 elif estado not in visitados and self.colisao(estado,(len(pathUntilNow)-1),best[0]):
                     visitados.append(estado)
                     possiveis.append((estado, self.graph.calcBestHeuristica(pathUntilNow, self.end), pathUntilNow))
 
-    def Greedy(self,ponto = None,path=[],visited=set()):
+    def Greedy(self,ponto = None,path=[],visited=[]):
         if ponto == None:
-            visited = set()
+            visited = []
             path = []
             ponto = (self.start,(0,0))
         path.append(ponto)
-        visited.add(ponto)
+        visited.append(ponto)
         best_nodes = []
         if ponto[0] in self.end:
-            return path
+            return path,visited
         for (adjacente, peso) in self.grafo[ponto]:
              if adjacente not in visited:
                  best_nodes.append((adjacente, peso))
@@ -123,41 +123,41 @@ class algoritmos:
            best_node = best_nodes.pop(0)
            if self.graph.estadoPossivel(best_node[0][0]) and self.colisao(best_node[0], (len(path)-1), ponto):
                 oldPath = path.copy()
-                resultado = self.Greedy(best_node[0],path,visited)
+                resultado,vis = self.Greedy(best_node[0],path,visited)
                 path = oldPath
-        return resultado
+        return resultado,visited
 
     def DFS(self):
-        visited = set()
+        visited = []
         stack = []
         # adicionar o nodo inicial à fila e aos visitados
         stack.append(((self.start, (0, 0)), [(self.start, (0, 0))], 0))
-        visited.add((self.start, (0, 0)))
+        visited.append((self.start, (0, 0)))
         while len(stack) > 0:
             nodo_atual = stack.pop()
             if nodo_atual[0][0] in self.end:
-                return nodo_atual[1]
+                return nodo_atual[1],visited
             else:
                 for (adjacente, peso) in self.grafo[nodo_atual[0]]:
                     nodo_atual_path = nodo_atual[1].copy()
                     nodo_atual_path.append(adjacente)
                     if adjacente not in visited and self.colisao(adjacente,(len(nodo_atual_path)-1),nodo_atual[0]):
                         stack.append((adjacente, nodo_atual_path, nodo_atual[2] + peso))
-                        visited.add(adjacente)
+                        visited.append(adjacente)
 
     def BFS(self):
         # definir nodos visitados para evitar ciclos
-        visited = set()
+        visited = []
         fila = queue.Queue()
         # adicionar o nodo inicial à fila e aos visitados
         fila.put(((self.start,(0,0)),[(self.start,(0,0))],0))
-        visited.add((self.start,(0,0)))
+        visited.append((self.start,(0,0)))
         while not fila.empty():
             nodo_atual = fila.get()
             if nodo_atual[0][0] in self.end:
-                return nodo_atual[1]
+                return nodo_atual[1],visited
             else:
                 for (adjacente, peso) in self.grafo[nodo_atual[0]]:
                     if adjacente not in visited and self.colisao(adjacente,(len(nodo_atual[1])-1),nodo_atual[0]):
                         fila.put((adjacente,nodo_atual[1]+[adjacente],nodo_atual[2]+peso))
-                        visited.add(adjacente)
+                        visited.append(adjacente)

@@ -53,7 +53,8 @@ def main():
     enunciado = smallerfont.render('   (enunciado)', True, white)
     circuito2 = smallfont.render('Circuito 2', True, white)
     circuito3 = smallfont.render('Circuito 3', True, white)
-    circuito4 = smallfont.render('Circuito 4', True, white)
+    circuito4 = smallfont.render('Circuito', True, white)
+    circuito4 = smallfont.render('Multiplayer', True, white)
     circuitoopcional = smallfont.render('Adicionar circuito', True, white)
     inputbox1 = inputbox.InputBox(580 * mw, height - 145 * mh, 300, 45, "maps/circuito1.txt")
     defaultinput = "maps/circuito1.txt"
@@ -109,7 +110,7 @@ def main():
 
                 # Circuito 2
                 if 610 * mw <= mouse[0] <= 820 * mw and height / 2 - 20 * mh <= mouse[1] <= height / 2 + 60 * mh:
-                    g, y, b, partida, fim = circuitos.loadcircuit("maps/circuitoMultiplayer.txt")
+                    g, y, b, partida, fim = circuitos.loadcircuit("maps/circuito2.txt")
                     l = len(partida)
                     screen.fill(dark_theme)
                     pygame.display.update()
@@ -133,7 +134,7 @@ def main():
 
                 # Circuito 4
                 if 1410 * mw <= mouse[0] <= 1620 * mw and height / 2 - 20 * mh <= mouse[1] <= height / 2 + 60 * mh:
-                    g, y, b, partida, fim = circuitos.loadcircuit("maps/circuito4.txt")
+                    g, y, b, partida, fim = circuitos.loadcircuit("maps/circuitoMultiplayer.txt")
                     l = len(partida)
                     screen.fill(dark_theme)
                     pygame.display.update()
@@ -215,7 +216,7 @@ def main():
             else:
                 pygame.draw.rect(screen, color_dark, [1410 * mw, height / 2 - 20 * mh, 210 * mw, 80 * mh])
 
-                # superimposing the text onto our button
+            # superimposing the text onto our button
             screen.blit(vectorace, (width / 2 - 250 * mw, 50 * mh))
             screen.blit(select, (width / 2 - 380 * mw, height / 2 - 240 * mh))
             screen.blit(quit, (width - 230 * mw, height - 140 * mh))
