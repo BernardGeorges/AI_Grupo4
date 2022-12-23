@@ -70,7 +70,7 @@ class algoritmos:
                     speedPlayer1 = math.sqrt(pow(path[play][1][1],2) + pow(path[play][1][0],2))
                     tempoPlayer0 = round(distanciaPlayer0/speedPlayer0,1)
                     tempoPlayer1 = round(distanciaPlayer1/speedPlayer1,1)
-                    ret = str(play) not in self.matrix[nodoPlayer[1]][nodoPlayer[0]] and tempoPlayer0 != tempoPlayer1
+                    ret = str(play) not in self.matrix[nodoPlayer[1]][nodoPlayer[0]] and abs(tempoPlayer0) != abs(tempoPlayer1)
                 else:
                     ret = str(play) not in self.matrix[nodoPlayer[1]][nodoPlayer[0]]
         else:
