@@ -1,9 +1,5 @@
 # AI Grupo4
 
-a96326 - Bernard Ambrosio Georges 
+Repositorio relativo o trabalho de inteligencia artificial. 
 
-a94870 - Rafael Picão Ferreira Correia
-
-a91682 - Robert Beniamin Szabo
-
-a97257 - João Miguel Ferreira Loureiro
+Neste trabalho foi-nos pedido pra construir um programa, que através de algoritmos de procura inteligente, encontrasse o caminho mais rapido para completar o circuito de um jogo de corrida. 
